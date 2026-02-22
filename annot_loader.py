@@ -2,6 +2,7 @@ import boxinfo
 from boxinfo import BoxInfo
 import os
 import cv2
+import pickle
 
 
 def load_frames_boxes(path):
@@ -113,12 +114,29 @@ def load_volleyball_dataset(videos_root, annot_root):
     return videos_annot
 
 
+def save_dataset():
+    dataset_root = '/kaggle/input/group-activity-recognition-volleyball'
+    videos_path = f'{dataset_root}/videos'
+    annot_path =  f'{dataset_root}/volleyball_tracking_annotations'
+
+    videos_annot_dct = load_volleyball_dataset(videos_path,annot_path)
+
+    with open('annot.pkl','wb') as f:
+        pickle.dump(videos_annot_dct,f)
 
 
+def load_dataset():
+    with open('annot.pkl','rb') as f:
+        videos_annot_dct = pickle.load(f)
+
+    return videos_annot_dct
 
 
+save_dataset()
+videos_annot_dct = load_dataset()
+sample_size = 10
 
-
-
+sample_dct = dict(list(videos_annot_dct.items())[:sample_size])
+print(sample_dct)
 
 
