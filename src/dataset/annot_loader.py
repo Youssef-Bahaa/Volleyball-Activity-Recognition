@@ -138,12 +138,13 @@ def load_dataset():
 
     return videos_annot_dct
 
+if __name__ == "__main__":
 
-save_dataset()
-videos_annot_dct = load_dataset()
-sample_size = 10
+    save_dataset()
+    videos_annot_dct = load_dataset()
+    sample_size = 10
 
-sample_dct = dict(list(videos_annot_dct.items())[:sample_size])
-print(sample_dct)
+    sample_dct = dict(list(videos_annot_dct.items())[:sample_size])
+    print(sample_dct)
 
 
