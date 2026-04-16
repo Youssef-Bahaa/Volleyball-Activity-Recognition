@@ -4,11 +4,15 @@ import logging
 
 def get_logger(name, log_file):
     """
-    Returns a logger with stdout handler and optional file handler.
+    Returns a logger with stdout handler and file handler.
     Safe to call multiple times — handlers are not duplicated.
     """
 
     logger = logging.getLogger(name)
+
+    if logger.handlers:
+        return logger
+
     logger.setLevel(logging.DEBUG)
 
     fmt = logging.Formatter(
