@@ -3,10 +3,11 @@ import torch.nn as nn
 import torchvision.models as models
 
 class ResNetFineTune(nn.Module):
-    def __init__(self, num_classes=8):
+    def __init__(self, num_classes=8, pretrained=True):
         super().__init__()
 
-        self.backbone = models.resnet50(weights=models.ResNet50_Weights.DEFAULT)
+        weights = models.ResNet50_Weights.DEFAULT if pretrained else None
+        self.backbone = models.resnet50(weights=weights)
 
         in_dim = self.backbone.fc.in_features
 
