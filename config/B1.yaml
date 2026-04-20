@@ -1,4 +1,4 @@
-# Baseline B1.yml
+# Baseline B1.yaml
 model:
   name: 'B1'
   backbone: "resnet50"
@@ -19,6 +19,7 @@ training:
   gradient_clip: 1.0
   num_workers: 4
   pin_memory: true
+  min_lr: 1e-6
 
 data:
   dataset_name: "VolleyBallFeaturesDataset"
