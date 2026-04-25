@@ -13,13 +13,13 @@ training:
   epochs: 50
   optimizer: "Adam"
   scheduler: "ReduceLROnPlateau"
-  scheduler_mode: "max"
+  scheduler_mode: "min"
   scheduler_factor: 0.5
   scheduler_patience: 5
   gradient_clip: 1.0
   num_workers: 4
   pin_memory: true
-  min_lr: 1e-6
+  min_lr: 0.000001
 
 data:
   dataset_name: "VolleyBallFeaturesDataset"
