@@ -1,7 +1,13 @@
 import torch.nn as nn
 import torch
 
-class FeatureClassifier(nn.Module):
+class B3Model(nn.Module):
+    """
+    FeatureClassifier from notebook.
+    Input:  (B, 12, 2048)  — padded player features per clip
+    Output: (B, num_classes)
+    """
+
     def __init__(self, input_dim=2048, num_classes=8):
         super().__init__()
         self.classifier = nn.Sequential(
@@ -34,5 +40,5 @@ class FeatureClassifier(nn.Module):
         )
 
     def forward(self, x):
-        x = torch.mean(x, dim=1)
+        x = torch.mean(x, dim=1) # mean-pool over players: (B, 2048)
         return self.classifier(x)
