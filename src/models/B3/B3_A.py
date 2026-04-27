@@ -3,10 +3,12 @@ import torch
 import torchvision.models as models
 
 class ResNetFineTune(nn.Module):
-    def __init__(self, num_classes=9):
+    def __init__(self, num_classes=9, pretrained=True):
         super().__init__()
 
-        self.backbone = models.resnet50(weights=models.ResNet50_Weights.DEFAULT)
+        weights = models.ResNet50_Weights.DEFAULT if pretrained else None
+        self.backbone = models.resnet50(weights=weights)
+
         for name, param in self.backbone.named_parameters():
             if any(name.startswith(l) for l in ['layer1', 'layer2']):
                 param.requires_grad = False
@@ -18,3 +20,7 @@ class ResNetFineTune(nn.Module):
 
     def forward(self, x):
         return self.backbone(x)
+
+    def get_feature_extractor(self):
+        """Returns backbone without the FC head — used for feature extraction."""
+        return nn.Sequential(*list(self.backbone.children())[:-1])
