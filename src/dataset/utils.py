@@ -1,5 +1,5 @@
 from torch.utils.data import Subset, Dataset
-
+import torch
 
 LABEL_TO_ID = {
     "l-pass": 0,
@@ -12,6 +12,19 @@ LABEL_TO_ID = {
     "r-winpoint": 7,
 }
 
+ID_TO_PERSON_ACTION  = {
+    0: 'waiting',
+    1: 'setting',
+    2: 'digging',
+    3: 'falling',
+    4: 'spiking',
+    5: 'blocking',
+    6: 'jumping',
+    7: 'moving',
+    8: 'standing'
+}
+
+PERSON_ACTION_TO_ID = {v: k for k, v in ID_TO_PERSON_ACTION .items()}
 
 def normalize_activity_name(activity):
     return activity.strip().replace("_", "-")
@@ -37,9 +50,18 @@ class TransformSubset(Dataset):
         self.transform = transform
 
     def __getitem__(self, idx):
-        video_id, img, label = self.subset[idx]
-        img = self.transform(img)
-        return img, label
+        sample = self.subset[idx]
+
+        if len(sample) == 3:
+            # B1: (video_id, img, label)
+            video_id, img, label = sample
+            return self.transform(img), label
+
+        else:
+            # B4: (video_id, clip_id, imgs, label)
+            video_id, clip_id, imgs, label = sample
+            imgs_t = torch.stack([self.transform(img) for img in imgs])
+            return imgs_t, label
 
     def __len__(self):
         return len(self.subset)
