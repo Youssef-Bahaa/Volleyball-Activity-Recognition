@@ -37,20 +37,12 @@ class FeaturesDataset(Dataset):
     def __getitem__(self, idx):
         video_id, feature_path, activity = self.samples[idx]
         features = torch.tensor(np.load(feature_path), dtype=torch.float32)  # (N, 2048)
-
-        # Pad / truncate to fixed 12 players
-        N = features.shape[0]
-        if N < 12:
-            features = torch.cat([features, torch.zeros(12 - N, 2048)], dim=0)
-        else:
-            features = features[:12]
-
         return features, activity2id(activity)
 
 
 def build_loaders(cfg):
 
-    p = Paths('.', model_name='B3_phase1')
+    p = Paths('.', model_name='B6_extract')
     feat_dir = str(p.result("features_resnet"))
 
     with open(cfg["data"]["annot_path"], "rb") as f:
@@ -71,7 +63,7 @@ def build_loaders(cfg):
     }
 
     return (
-        DataLoader(filter_by_ids(splits["train"]), shuffle=True,  **kw),
+        DataLoader(filter_by_ids(splits["train"]), shuffle=True, **kw),
         DataLoader(filter_by_ids(splits["validation"]), shuffle=False, **kw),
         DataLoader(filter_by_ids(splits["test"]), shuffle=False, **kw),
     )
