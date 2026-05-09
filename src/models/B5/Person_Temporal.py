@@ -1,3 +1,7 @@
+import torch
+import torch.nn as nn
+import torchvision.models as models
+
 class PersonTemp(nn.Module):
     def __init__(self, input_dim=2048, hidden_size=512, num_classes=9):
         super(PersonTemp, self).__init__()

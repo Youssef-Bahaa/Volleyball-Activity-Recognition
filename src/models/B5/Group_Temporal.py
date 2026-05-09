@@ -1,3 +1,6 @@
+import torch
+import torch.nn as nn
+
 class GroupActivityB5(nn.Module):
     def __init__(self, player_model, num_classes=8):
         super(GroupActivityB5, self).__init__()
