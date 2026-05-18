@@ -21,7 +21,7 @@ def run_epoch(model, loader, criterion, num_classes, device, optimizer=None):
     total_loss, total = 0.0, 0
 
     with torch.enable_grad() if is_train else torch.no_grad():
-        for imgs, labels in tqdm(loader, leave=False):
+        for *_, imgs, labels in tqdm(loader, leave=False):
             imgs, labels = imgs.to(device), labels.to(device)
 
             outputs = model(imgs)
@@ -75,7 +75,7 @@ def train(
         )
 
         if scheduler:
-            scheduler.step(val_loss) if isinstance(scheduler, ReduceLROnPlateau) else scheduler.step()
+            scheduler.step(val_acc) if isinstance(scheduler, ReduceLROnPlateau) else scheduler.step()
 
         lr = optimizer.param_groups[0]["lr"]
         log.info(f"train loss={train_loss:.4f} acc={train_acc:.4f} f1={train_f1:.4f}")

@@ -102,7 +102,7 @@ def load_model(name, nclasses, pretrained=True, cfg=None):
             num_layers=cfg['model']['num_layers'],
             num_classes=cfg['model']['num_classes'],
         )
-    elif name == 'B5_Temporal':
+    elif name == 'B5_GROUP':
         # load the person model (stage 1)
         person_cls = getattr(
             importlib.import_module("src.models.B5.Person_Temporal"), "PersonTemp"

@@ -22,7 +22,7 @@ def evaluate(model, test_loader, num_classes, device, path):
 
 
     with torch.no_grad():
-        for imgs, labels in tqdm(test_loader, leave=False):
+        for *_, imgs, labels in tqdm(test_loader, leave=False):
             imgs, labels = imgs.to(device), labels.to(device)
             preds = model(imgs).argmax(dim=1)
             acc_metric.update(preds, labels)

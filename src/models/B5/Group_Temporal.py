@@ -5,8 +5,10 @@ class GroupActivityB5(nn.Module):
     def __init__(self, player_model, num_classes=8):
         super(GroupActivityB5, self).__init__()
 
-        self.resnet50 = player_model.module.backbone
-        self.lstm = player_model.module.lstm
+        base = player_model.module if hasattr(player_model, 'module') else player_model
+
+        self.resnet50 = base.backbone
+        self.lstm = base.lstm
 
         for param in self.resnet50.parameters():
             param.requires_grad = False
