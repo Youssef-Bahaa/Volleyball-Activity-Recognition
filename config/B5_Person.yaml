@@ -16,6 +16,7 @@ training:
   patience: 10
   min_lr: 1e-6
   scheduler_factor: 0.5
+  scheduler_patience: 5
   num_workers: 2
   pin_memory: true
 

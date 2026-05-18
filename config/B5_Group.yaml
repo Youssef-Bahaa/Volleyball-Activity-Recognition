@@ -11,9 +11,10 @@ training:
   optimizer: "AdamW"
   scheduler: "ReduceLROnPlateau"
   scheduler_mode: "min"
+  scheduler_patience: 5
+  scheduler_factor: 0.5
   patience: 10
   min_lr: 1e-6
-  scheduler_factor: 0.5
   num_workers: 2
   pin_memory: true
 
