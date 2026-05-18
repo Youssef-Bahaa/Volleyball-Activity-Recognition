@@ -85,6 +85,14 @@ class PersonTempDataset(Dataset):
         return video_id, clip_id, video_tensor, labels
 
 
+def collate_fn(batch):
+    video_ids, clip_ids, tensors, labels = zip(*batch)
+    tensors = torch.stack(tensors)   # (B, N, T, C, H, W)
+    labels  = torch.stack(labels)    # (B, N)
+    B, N    = labels.shape
+    labels  = labels.view(B * N)     # (B*N,)
+    return video_ids, clip_ids, tensors, labels
+
 def build_loaders(cfg):
     data_cfg = cfg["data"]
     training_cfg = cfg["training"]
@@ -115,6 +123,7 @@ def build_loaders(cfg):
         "batch_size":  training_cfg["batch_size"],
         "num_workers": training_cfg.get("num_workers", 4),
         "pin_memory":  training_cfg.get("pin_memory", True),
+        "collate_fn": collate_fn,
     }
 
     train_loader = DataLoader(train_dataset, shuffle=True,  **loader_kwargs)

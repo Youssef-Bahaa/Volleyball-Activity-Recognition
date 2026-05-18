@@ -1,5 +1,7 @@
 import torch
 import os
+
+from torch.cuda.amp import GradScaler, autocast
 from tqdm import tqdm
 from torchmetrics import Accuracy, F1Score
 from torch.optim.lr_scheduler import ReduceLROnPlateau
@@ -8,11 +10,9 @@ from src.engine.utils import set_seed
 from src.utils.checkpoint import CheckpointManager
 from src.utils.logger import get_logger
 from src.utils.metrics import plot_training_curves
-from src.utils.paths import Paths
 
 
-
-def run_epoch(model, loader, criterion, num_classes, device, optimizer=None):
+def run_epoch(model, loader, criterion, num_classes, device, optimizer=None, scaler=None):
     is_train = optimizer is not None
     model.train() if is_train else model.eval()
 
@@ -24,22 +24,26 @@ def run_epoch(model, loader, criterion, num_classes, device, optimizer=None):
         for *_, imgs, labels in tqdm(loader, leave=False):
             imgs, labels = imgs.to(device), labels.to(device)
 
-            outputs = model(imgs)
-            loss = criterion(outputs, labels)
-
             if is_train:
                 optimizer.zero_grad()
-                loss.backward()
-                optimizer.step()
+                with autocast(device_type='cuda', dtype=torch.float16):
+                    outputs = model(imgs)
+                    loss = criterion(outputs, labels)
+                scaler.scale(loss).backward()
+                scaler.step(optimizer)
+                scaler.update()
+            else:
+                with autocast(device_type='cuda', dtype=torch.float16):
+                    outputs = model(imgs)
+                    loss = criterion(outputs, labels)
 
             preds = outputs.argmax(dim=1)
             acc_metric.update(preds, labels)
             f1_metric.update(preds, labels)
-            total_loss += loss.item() * imgs.size(0)
-            total += imgs.size(0)
+            total_loss += loss.item() * labels.size(0)
+            total      += labels.size(0)
 
     return total_loss / total, acc_metric.compute().item(), f1_metric.compute().item()
-
 
 
 def train(
@@ -56,11 +60,11 @@ def train(
     scheduler=None,
     seed=42,
 ):
-
     log = get_logger(f"train_{model_name}", path.log("train"))
     log.info(f"Device: {device} | Seed: {seed}")
     set_seed(seed)
 
+    scaler   = GradScaler()
     ckpt_mgr = CheckpointManager(save_path=path.checkpoints, keep_top_k=3, logger=log)
     history  = {k: [] for k in ("train_loss", "val_loss", "train_acc", "val_acc", "train_f1", "val_f1")}
 
@@ -68,14 +72,14 @@ def train(
         log.info(f"── Epoch [{epoch}/{num_epochs}] ───────────────")
 
         train_loss, train_acc, train_f1 = run_epoch(
-            model, train_loader, criterion, num_classes, device, optimizer=optimizer
+            model, train_loader, criterion, num_classes, device, optimizer=optimizer, scaler=scaler
         )
         val_loss, val_acc, val_f1 = run_epoch(
             model, val_loader, criterion, num_classes, device
         )
 
         if scheduler:
-            scheduler.step(val_acc) if isinstance(scheduler, ReduceLROnPlateau) else scheduler.step()
+            scheduler.step(val_loss) if isinstance(scheduler, ReduceLROnPlateau) else scheduler.step()  # ← val_loss not val_acc
 
         lr = optimizer.param_groups[0]["lr"]
         log.info(f"train loss={train_loss:.4f} acc={train_acc:.4f} f1={train_f1:.4f}")
@@ -92,5 +96,3 @@ def train(
         log.info(f"Curves : {curves_path}")
 
     return history
-
-
