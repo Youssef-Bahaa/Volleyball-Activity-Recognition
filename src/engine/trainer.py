@@ -14,11 +14,16 @@ from src.utils.metrics import plot_training_curves
 
 def run_epoch(model, loader, criterion, num_classes, device, optimizer=None, scaler=None):
     is_train = optimizer is not None
-    model.train() if is_train else model.eval()
+
+
+    eval_model = model.module if (not is_train and hasattr(model, 'module')) else model
+    eval_model.train() if is_train else eval_model.eval()
 
     acc_metric = Accuracy(task="multiclass", num_classes=num_classes).to(device)
     f1_metric  = F1Score(task="multiclass", num_classes=num_classes, average="macro").to(device)
     total_loss, total = 0.0, 0
+
+    use_amp = device == 'cuda'
 
     with torch.enable_grad() if is_train else torch.no_grad():
         for *_, imgs, labels in tqdm(loader, leave=False):
@@ -26,15 +31,15 @@ def run_epoch(model, loader, criterion, num_classes, device, optimizer=None, sca
 
             if is_train:
                 optimizer.zero_grad()
-                with autocast('cuda', dtype=torch.float16):
+                with autocast('cuda', dtype=torch.float16, enabled=use_amp):
                     outputs = model(imgs)
                     loss = criterion(outputs, labels)
                 scaler.scale(loss).backward()
                 scaler.step(optimizer)
                 scaler.update()
             else:
-                with autocast('cuda', dtype=torch.float16):
-                    outputs = model(imgs)
+                with autocast('cuda', dtype=torch.float16, enabled=use_amp):
+                    outputs = eval_model(imgs)
                     loss = criterion(outputs, labels)
 
             preds = outputs.argmax(dim=1)
@@ -64,7 +69,7 @@ def train(
     log.info(f"Device: {device} | Seed: {seed}")
     set_seed(seed)
 
-    scaler = GradScaler('cuda')
+    scaler   = GradScaler('cuda', enabled=device == 'cuda')
     ckpt_mgr = CheckpointManager(save_path=path.checkpoints, keep_top_k=3, logger=log)
     history  = {k: [] for k in ("train_loss", "val_loss", "train_acc", "val_acc", "train_f1", "val_f1")}
 
@@ -74,12 +79,15 @@ def train(
         train_loss, train_acc, train_f1 = run_epoch(
             model, train_loader, criterion, num_classes, device, optimizer=optimizer, scaler=scaler
         )
+
+        torch.cuda.empty_cache()
+
         val_loss, val_acc, val_f1 = run_epoch(
             model, val_loader, criterion, num_classes, device
         )
 
         if scheduler:
-            scheduler.step(val_loss) if isinstance(scheduler, ReduceLROnPlateau) else scheduler.step()  # ← val_loss not val_acc
+            scheduler.step(val_loss) if isinstance(scheduler, ReduceLROnPlateau) else scheduler.step()
 
         lr = optimizer.param_groups[0]["lr"]
         log.info(f"train loss={train_loss:.4f} acc={train_acc:.4f} f1={train_f1:.4f}")
