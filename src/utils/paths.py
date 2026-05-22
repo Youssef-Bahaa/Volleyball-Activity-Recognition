@@ -79,6 +79,11 @@ class Paths:
 
         return self.checkpoints / best_file
 
+    def last_checkpoint(self):
+        last = self.checkpoints / "last.pth"
+        if not last.exists():
+            raise FileNotFoundError(f"No last.pth in {self.checkpoints}")
+        return last
 
     def __repr__(self):
         return f'Paths(model={self.model_name}, root={self.root})'

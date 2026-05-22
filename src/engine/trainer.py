@@ -64,6 +64,7 @@ def train(
     path,
     scheduler=None,
     seed=42,
+    start_epoch=1,
 ):
     log = get_logger(f"train_{model_name}", path.log("train"))
     log.info(f"Device: {device} | Seed: {seed}")
@@ -73,7 +74,7 @@ def train(
     ckpt_mgr = CheckpointManager(save_path=path.checkpoints, keep_top_k=3, logger=log)
     history  = {k: [] for k in ("train_loss", "val_loss", "train_acc", "val_acc", "train_f1", "val_f1")}
 
-    for epoch in range(1, num_epochs + 1):
+    for epoch in range(start_epoch, num_epochs + 1):
         log.info(f"── Epoch [{epoch}/{num_epochs}] ───────────────")
 
         train_loss, train_acc, train_f1 = run_epoch(

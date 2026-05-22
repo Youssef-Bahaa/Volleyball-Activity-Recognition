@@ -35,6 +35,11 @@ class CheckpointManager:
         torch.save(state, path)
         self.logger.info(f"Saved checkpoint: {path}")
 
+        # ── always save last epoch separately ───────────────────
+        last_path = os.path.join(self.save_path, "last.pth")
+        torch.save(state, last_path)
+        self.logger.info(f"Saved last checkpoint: {last_path}")
+
         self.history.append((val_acc, path))
         self.history.sort(key=lambda x: x[0] , reverse=True)  # Sort by val_acc descending
 

@@ -145,6 +145,17 @@ def run_train(args, cfg, p, device):
 
     optimizer = build_optimizer(cfg, model)
     scheduler = build_scheduler(cfg, optimizer)
+
+    # ── Resume from checkpoint ───────────────────────────────
+    start_epoch = 1
+    if args.resume:
+        try:
+            ckpt = CheckpointManager.load(p.last_checkpoint(), model, optimizer, device=device)
+            start_epoch = ckpt.get('epoch', 0) + 1
+            print(f"Resumed from epoch {start_epoch - 1}")
+        except FileNotFoundError:
+            print("No checkpoint found, starting from scratch")
+
     train_loader, val_loader, _ = load_loaders(args.model, cfg)
 
     train(
@@ -160,6 +171,7 @@ def run_train(args, cfg, p, device):
         path=p,
         scheduler=scheduler,
         seed=cfg['experiment']['seed'],
+        start_epoch=start_epoch,
     )
 
 
@@ -170,6 +182,7 @@ def main():
     parser.add_argument("--model", required=True, choices=MODEL_REGISTRY.keys())
     parser.add_argument("--config", required=True)
     parser.add_argument("--phase",  choices=["extract", "train", "both"], default="train")
+    parser.add_argument("--resume", action="store_true", default=False)
 
     args = parser.parse_args()
 
