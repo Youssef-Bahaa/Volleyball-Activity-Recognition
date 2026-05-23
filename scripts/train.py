@@ -177,6 +177,7 @@ def run_train(args, cfg, p, device):
         seed=cfg['experiment']['seed'],
         start_epoch=start_epoch,
         patience=patience,
+        cfg=cfg,
     )
 
 

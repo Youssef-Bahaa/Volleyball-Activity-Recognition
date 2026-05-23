@@ -12,7 +12,7 @@ class CheckpointManager:
         ckpt_mgr.save(model, optimizer, epoch=5, val_acc=0.82)
     """
 
-    def __init__(self, save_path, keep_top_k = 3, logger=None):
+    def __init__(self, save_path, keep_top_k = 1, logger=None):
         self.save_path  = save_path
         self.keep_top_k = keep_top_k
         self.history = []  # List of (val_acc, path)

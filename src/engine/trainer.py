@@ -13,6 +13,8 @@ from src.utils.logger import get_logger
 from src.utils.metrics import plot_training_curves
 
 from src.utils.EarlyStopping import EarlyStopping
+import mlflow
+from src.utils.mlflow_logger import setup_mlflow, log_params, log_epoch, log_model, end_run
 
 def run_epoch(model, loader, criterion, num_classes, device, optimizer=None, scaler=None):
     is_train = optimizer is not None
@@ -67,11 +69,18 @@ def train(
     scheduler=None,
     seed=42,
     start_epoch=1,
-    patience=None
+    patience=None,
+    cfg=None,
 ):
     log = get_logger(f"train_{model_name}", path.log("train"))
     log.info(f"Device: {device} | Seed: {seed}")
     set_seed(seed)
+
+    # ── MLflow setup ─────────────────────────────────────────
+    if cfg:
+        setup_mlflow(cfg, model_name)
+        mlflow.start_run(run_name=f"{model_name}_run")
+        log_params(cfg)
 
     scaler   = GradScaler('cuda', enabled=device == 'cuda')
     ckpt_mgr = CheckpointManager(save_path=path.checkpoints, keep_top_k=3, logger=log)
@@ -106,6 +115,10 @@ def train(
         plot_training_curves(history, curves_path)
         log.info(f"Curves : {curves_path}")
 
+        # ── MLflow log epoch ──────────────────────────────────
+        if cfg:
+            log_epoch(epoch, train_loss, train_acc, train_f1, val_loss, val_acc, val_f1, lr)
+
         ckpt_mgr.save(model, optimizer, epoch, val_acc, early_stopping=early_stopper)
 
         # ── Early stopping ───────────────────────────────────
@@ -114,5 +127,19 @@ def train(
             if early_stopper.early_stop:
                 log.info(f"Early stopping triggered at epoch {epoch}")
                 break
+
+    # ── MLflow end ────────────────────────────────────────────
+    if cfg:
+        mlflow.log_artifact(str(curves_path))
+        end_run()
+
+    # ── Kaggle auto-save ──────────────────────────────────────
+    if os.environ.get("KAGGLE_KERNEL_RUN_TYPE"):
+        import shutil
+        shutil.copytree('checkpoints', '/kaggle/working/checkpoints', dirs_exist_ok=True)
+        shutil.copytree('results', '/kaggle/working/results', dirs_exist_ok=True)
+        shutil.copytree('logs', '/kaggle/working/logs', dirs_exist_ok=True)
+        shutil.copytree('mlruns', '/kaggle/working/mlruns', dirs_exist_ok=True)
+        log.info("Saved outputs to /kaggle/working/")
 
     return history
