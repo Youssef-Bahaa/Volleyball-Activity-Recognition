@@ -82,10 +82,10 @@ def train(
         mlflow.start_run(run_name=f"{model_name}_run")
         log_params(cfg)
 
-    scaler   = GradScaler('cuda', enabled=device == 'cuda')
-    ckpt_mgr = CheckpointManager(save_path=path.checkpoints, keep_top_k=3, logger=log)
+    scaler = GradScaler('cuda', enabled=device == 'cuda')
+    ckpt_mgr = CheckpointManager(save_path=path.checkpoints, keep_top_k=1, logger=log)
     early_stopper = EarlyStopping(patience=patience) if patience is not None else None
-    history  = {k: [] for k in ("train_loss", "val_loss", "train_acc", "val_acc", "train_f1", "val_f1")}
+    history = {k: [] for k in ("train_loss", "val_loss", "train_acc", "val_acc", "train_f1", "val_f1")}
 
     for epoch in range(start_epoch, num_epochs + 1):
         log.info(f"── Epoch [{epoch}/{num_epochs}] ───────────────")
