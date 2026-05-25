@@ -14,10 +14,13 @@ from src.engine.evaluator import evaluate
 LOADER_REGISTRY = {
     "B1": "src.dataset.DataLoader.B1_loader",
     "B3_phase1": "src.dataset.DataLoader.B3_person_loader",
-    'B3': 'src.dataset.DataLoader.B3_features_loader',
-    "B4":"src.dataset.DataLoader.B4_loader",
+    "B3": "src.dataset.DataLoader.B3_features_loader",
+    'B4': 'src.dataset.DataLoader.B4_loader',
+    'B5': 'src.dataset.DataLoader.B5_PersonTemp',
+    'B5_GROUP': 'src.dataset.DataLoader.B5_VolleyBallScene',
+    'B6_Person': 'src.dataset.DataLoader.B3_person_loader',
+    'B6_Group': 'src.dataset.DataLoader.B6_features_loader'
 }
-
 
 MODEL_REGISTRY = {
     # ── Single phase ───────────────────────────────────────────
@@ -52,6 +55,18 @@ MODEL_REGISTRY = {
         "class": "B4Model",
         "phases": ["train"],
         "loader": "src.dataset.DataLoader.B4_loader",
+    },
+    "B5": {
+        "module": "src.models.B5.Person_Temporal",
+        "class": "PersonTemp",
+        "phases": ["train"],
+        "loader": "src.dataset.DataLoader.B5_PersonTemp",
+    },
+    "B5_GROUP": {
+        "module": "src.models.B5.Group_Temporal",
+        "class": "GroupActivityB5",
+        "phases": ["train"],
+        "loader": "src.dataset.DataLoader.B5_VolleyBallScene",
     },
 }
 

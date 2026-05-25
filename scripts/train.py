@@ -159,7 +159,7 @@ def run_train(args, cfg, p, device):
     train_loader, val_loader, _ = load_loaders(args.model, cfg)
 
     patience = (
-        args.patience if args.patience is not None else cfg['training'].get('patience', 5)
+        args.patience if args.patience is not None else cfg['training'].get('patience', 7)
     ) if args.early_stopping else None
 
     train(

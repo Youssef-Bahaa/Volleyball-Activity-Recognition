@@ -1,5 +1,6 @@
 import torch
 import os
+import shutil
 
 from torch.amp import GradScaler, autocast
 from tqdm import tqdm
@@ -50,7 +51,7 @@ def run_epoch(model, loader, criterion, num_classes, device, optimizer=None, sca
             acc_metric.update(preds, labels)
             f1_metric.update(preds, labels)
             total_loss += loss.item() * labels.size(0)
-            total      += labels.size(0)
+            total += labels.size(0)
 
     return total_loss / total, acc_metric.compute().item(), f1_metric.compute().item()
 
@@ -135,11 +136,11 @@ def train(
 
     # ── Kaggle auto-save ──────────────────────────────────────
     if os.environ.get("KAGGLE_KERNEL_RUN_TYPE"):
-        import shutil
         shutil.copytree('checkpoints', '/kaggle/working/checkpoints', dirs_exist_ok=True)
         shutil.copytree('results', '/kaggle/working/results', dirs_exist_ok=True)
         shutil.copytree('logs', '/kaggle/working/logs', dirs_exist_ok=True)
-        shutil.copytree('mlruns', '/kaggle/working/mlruns', dirs_exist_ok=True)
+        if os.path.exists('mlruns'):  # ← guard
+            shutil.copytree('mlruns', '/kaggle/working/mlruns', dirs_exist_ok=True)
         log.info("Saved outputs to /kaggle/working/")
 
     return history

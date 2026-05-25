@@ -65,6 +65,10 @@ class CheckpointManager:
         """
         ckpt = torch.load(path, map_location= device)
         state = ckpt.get('model_state_dict' , ckpt)
+
+        if any(k.startswith('module.') for k in state):
+            state = {k.replace('module.', '', 1): v for k, v in state.items()}
+
         model.load_state_dict(state)
 
         if optimizer is not None and 'optimizer_state_dict' in ckpt:
