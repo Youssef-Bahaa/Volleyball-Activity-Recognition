@@ -121,8 +121,8 @@ def build_group_loaders(cfg):
     test_subset = filter_by_ids(full_dataset, data_cfg["video_splits"]["test"])
 
     train_dataset = B6GroupTransformSubset(train_subset, train_transform)
-    val_dataset = B6GroupTransformSubset(val_subset,   val_transform)
-    test_dataset = B6GroupTransformSubset(test_subset,  test_transform)
+    val_dataset = B6GroupTransformSubset(val_subset, val_transform)
+    test_dataset = B6GroupTransformSubset(test_subset, test_transform)
 
     loader_kwargs = {
         "batch_size": training_cfg["batch_size"],
@@ -130,8 +130,8 @@ def build_group_loaders(cfg):
         "pin_memory": training_cfg.get("pin_memory", True),
     }
 
-    train_loader = DataLoader(train_dataset, shuffle=True,  **loader_kwargs)
-    val_loader = DataLoader(val_dataset,   shuffle=False, **loader_kwargs)
-    test_loader = DataLoader(test_dataset,  shuffle=False, **loader_kwargs)
+    train_loader = DataLoader(train_dataset, shuffle=True, **loader_kwargs)
+    val_loader = DataLoader(val_dataset, shuffle=False, **loader_kwargs)
+    test_loader = DataLoader(test_dataset, shuffle=False, **loader_kwargs)
 
     return train_loader, val_loader, test_loader
