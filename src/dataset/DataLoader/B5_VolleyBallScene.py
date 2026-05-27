@@ -102,8 +102,8 @@ def build_loaders(cfg):
     )
 
     train_dataset = filter_by_ids(train_dataset, data_cfg["video_splits"]["train"])
-    val_dataset = filter_by_ids(val_dataset,   data_cfg["video_splits"]["validation"])
-    test_dataset = filter_by_ids(test_dataset,  data_cfg["video_splits"]["test"])
+    val_dataset = filter_by_ids(val_dataset, data_cfg["video_splits"]["validation"])
+    test_dataset = filter_by_ids(test_dataset, data_cfg["video_splits"]["test"])
 
     loader_kwargs = {
         "batch_size": training_cfg["batch_size"],

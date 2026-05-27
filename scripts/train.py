@@ -17,7 +17,9 @@ LOADER_REGISTRY = {
     'B5': 'src.dataset.DataLoader.B5_PersonTemp',
     'B5_GROUP': 'src.dataset.DataLoader.B5_VolleyBallScene',
     'B6_Person': 'src.dataset.DataLoader.B6_Person',
-    'B6': 'src.dataset.DataLoader.B6_features_loader'
+    'B6': 'src.dataset.DataLoader.B6_features_loader',
+    'B7_Person': 'src.dataset.DataLoader.B5_PersonTemp',
+
 }
 
 MODEL_REGISTRY = {
@@ -72,10 +74,22 @@ MODEL_REGISTRY = {
         "loader": "src.dataset.DataLoader.B6_Person",
     },
     "B6": {
-        "module": "src.models.B6.B6_Temporal",
-        "class": "Temporal_Group_Classifier",
+        "module": "src.models.B6.Group_Temporal",
+        "class": "GroupActivityB6",
         "phases": ["train"],
         "loader": "src.dataset.DataLoader.B6_features_loader",
+    },
+    "B7_Person": {
+        "module": "src.models.B7.Person_Temporal",
+        "class": "PersonTemp",
+        "phases": ["train"],
+        "loader": "src.dataset.DataLoader.B5_PersonTemp",
+    },
+    "B7_Group": {
+        "module": "src.models.B7.Group_Temporal",
+        "class": "GroupActivityB7",
+        "phases": ["train"],
+        "loader": "src.dataset.DataLoader.B6_Group",
     },
 }
 def _import(module_path, class_name):
