@@ -19,7 +19,7 @@ LOADER_REGISTRY = {
     'B6_Person': 'src.dataset.DataLoader.B6_Person',
     'B6': 'src.dataset.DataLoader.B6_features_loader',
     'B7_Person': 'src.dataset.DataLoader.B5_PersonTemp',
-    'B8_GROUP': 'src.dataset.DataLoader.B6_Group',
+    'B8_Group': 'src.dataset.DataLoader.B6_Group',
 }
 
 MODEL_REGISTRY = {

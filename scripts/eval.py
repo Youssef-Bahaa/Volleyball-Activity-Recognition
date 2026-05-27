@@ -128,6 +128,23 @@ def load_model(name, nclasses, cfg=None):
         person_model.eval()
         return cls(num_classes=nclasses, player_model=person_model)
 
+    elif name == 'B7_Group':
+        person_cls = getattr(
+            importlib.import_module("src.models.B7.Person_Temporal"), "PersonTemp"
+        )
+        person_model = person_cls()
+        ckpt_path = Paths('.', model_name='B7_Person').best_checkpoint()
+        CheckpointManager.load(ckpt_path, person_model, device='cpu')
+        return cls(player_model=person_model, num_classes=nclasses)
+
+    elif name == 'B8_Group':
+        person_cls = getattr(
+            importlib.import_module("src.models.B7.Person_Temporal"), "PersonTemp"
+        )
+        person_model = person_cls()
+        ckpt_path = Paths('.', model_name='B7_Person').best_checkpoint()
+        CheckpointManager.load(ckpt_path, person_model, device='cpu')
+        return cls(player_model=person_model, num_classes=nclasses)
 
     return cls(num_classes=nclasses)
 
