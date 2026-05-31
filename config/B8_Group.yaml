@@ -1,5 +1,5 @@
 model:
-  name: 'B7_Group'
+  name: 'B8_Group'
   num_classes: 8
   pretrained: true
   feature_dim: 2048
@@ -32,4 +32,4 @@ data:
 
 experiment:
   seed: 42
-  name: "B7_resnet50_lstm_group"
+  name: "B8_resnet50_team_split_group"
