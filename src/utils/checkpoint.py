@@ -79,7 +79,8 @@ class CheckpointManager:
         if any(k.startswith('module.') for k in state):
             state = {k.replace('module.', '', 1): v for k, v in state.items()}
 
-        model.load_state_dict(state)
+        target = model.module if hasattr(model, "module") else model
+        target.load_state_dict(state)
 
         if optimizer is not None and 'optimizer_state_dict' in ckpt:
             optimizer.load_state_dict(ckpt["optimizer_state_dict"])
