@@ -16,8 +16,16 @@ class CheckpointManager:
         self.save_path  = save_path
         self.keep_top_k = keep_top_k
         self.history = []  # List of (val_acc, path)
+        self._training_history = {}
         self.logger = logger
         os.makedirs(save_path, exist_ok=True)
+
+    @staticmethod
+    def _unwrap_state(model):
+        sd = model.state_dict()
+        if any(k.startswith('module.') for k in sd):
+            sd = {k.replace('module.', '', 1): v for k, v in sd.items()}
+        return sd
 
     def save(self, model, optimizer, epoch, val_acc, early_stopping=None):
         filename = f"epoch_{epoch:02d}_acc_{val_acc:.4f}.pth"
@@ -25,9 +33,11 @@ class CheckpointManager:
 
         state = {
             'epoch': epoch,
-            'model_state_dict': model.state_dict(),
+            'model_state_dict': self._unwrap_state(model),
             'optimizer_state_dict': optimizer.state_dict(),
-            'val_acc': val_acc}
+            'val_acc': val_acc,
+            'history': self._training_history,
+        }
 
         if early_stopping is not None:
             state["early_stopping"] = early_stopping.state_dict()
@@ -63,7 +73,7 @@ class CheckpointManager:
         Loads a checkpoint into model (and optionally optimizer).
         Returns the checkpoint dict for epoch/val_acc inspection.
         """
-        ckpt = torch.load(path, map_location= device)
+        ckpt = torch.load(path, map_location= device, weights_only=False)
         state = ckpt.get('model_state_dict' , ckpt)
 
         if any(k.startswith('module.') for k in state):
