@@ -204,7 +204,7 @@ def run_train(args, cfg, p, device):
         model=model,
         train_loader=train_loader,
         val_loader=val_loader,
-        criterion=nn.CrossEntropyLoss(),
+        criterion=nn.CrossEntropyLoss(label_smoothing=cfg['training'].get('label_smoothing', 0.1)),
         optimizer=optimizer,
         device=device,
         num_classes=num_classes,

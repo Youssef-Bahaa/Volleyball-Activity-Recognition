@@ -26,6 +26,7 @@ def run_epoch(model, loader, criterion, num_classes, device, optimizer=None, sca
 
     acc_metric = Accuracy(task="multiclass", num_classes=num_classes).to(device)
     f1_metric  = F1Score(task="multiclass", num_classes=num_classes, average="macro").to(device)
+    f1_weighted = F1Score(task="multiclass", num_classes=num_classes, average="weighted").to(device)
     total_loss, total = 0.0, 0
 
     use_amp = device == 'cuda'
@@ -50,10 +51,12 @@ def run_epoch(model, loader, criterion, num_classes, device, optimizer=None, sca
             preds = outputs.argmax(dim=1)
             acc_metric.update(preds, labels)
             f1_metric.update(preds, labels)
+            f1_weighted.update(preds, labels)
             total_loss += loss.item() * labels.size(0)
             total += labels.size(0)
 
-    return total_loss / total, acc_metric.compute().item(), f1_metric.compute().item()
+    return total_loss / total, acc_metric.compute().item(), f1_metric.compute().item(), f1_weighted.compute().item()
+
 
 
 def train(
@@ -86,18 +89,18 @@ def train(
     scaler = GradScaler('cuda', enabled=device == 'cuda')
     ckpt_mgr = CheckpointManager(save_path=path.checkpoints, keep_top_k=1, logger=log)
     early_stopper = EarlyStopping(patience=patience) if patience is not None else None
-    history = {k: [] for k in ("train_loss", "val_loss", "train_acc", "val_acc", "train_f1", "val_f1")}
+    history = {k: [] for k in ("train_loss", "val_loss", "train_acc", "val_acc", "train_f1", "val_f1", "train_f1w", "val_f1w")}
 
     for epoch in range(start_epoch, num_epochs + 1):
         log.info(f"── Epoch [{epoch}/{num_epochs}] ───────────────")
 
-        train_loss, train_acc, train_f1 = run_epoch(
+        train_loss, train_acc, train_f1, train_f1w = run_epoch(
             model, train_loader, criterion, num_classes, device, optimizer=optimizer, scaler=scaler
         )
 
         torch.cuda.empty_cache()
 
-        val_loss, val_acc, val_f1 = run_epoch(
+        val_loss, val_acc, val_f1, val_f1w = run_epoch(
             model, val_loader, criterion, num_classes, device
         )
 
@@ -105,11 +108,11 @@ def train(
             scheduler.step(val_loss) if isinstance(scheduler, ReduceLROnPlateau) else scheduler.step()
 
         lr = optimizer.param_groups[0]["lr"]
-        log.info(f"train loss={train_loss:.4f} acc={train_acc:.4f} f1={train_f1:.4f}")
-        log.info(f"val loss={val_loss:.4f} acc={val_acc:.4f} f1={val_f1:.4f}")
+        log.info(f"train loss={train_loss:.4f} acc={train_acc:.4f} macro_f1={train_f1:.4f} weighted_f1={train_f1w:.4f}")
+        log.info(f"val loss={val_loss:.4f} acc={val_acc:.4f} macro_f1={val_f1:.4f} weighted_f1={val_f1w:.4f}")
         log.info(f"lr={lr:.2e}")
 
-        for key, val in zip(history, (train_loss, val_loss, train_acc, val_acc, train_f1, val_f1)):
+        for key, val in zip(history, (train_loss, val_loss, train_acc, val_acc, train_f1, val_f1, train_f1w, val_f1w)):
             history[key].append(val)
 
         curves_path = path.figure("training_curves.png")

@@ -53,20 +53,28 @@ def plot_per_class_accuracy(labels, preds, class_names, save_path):
 
 
 def plot_training_curves(history, save_path):
-    epochs = range(1 , len(history['train_loss'] ) + 1)
-    fig , (ax1, ax2) = plt.subplots(1, 2 , figsize=(12,4))
+    epochs = range(1, len(history['train_loss']) + 1)
+    fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(18, 4))
 
-    ax1.plot(epochs, history['train_loss'], label = 'Train')
-    ax1.plot(epochs, history['val_loss'], label = 'Val')
+    ax1.plot(epochs, history['train_loss'], label='Train')
+    ax1.plot(epochs, history['val_loss'], label='Val')
     ax1.set_title('Loss')
     ax1.set_xlabel('Epoch')
     ax1.legend()
 
-    ax2.plot(epochs, history['train_acc'], label = 'Train Acc')
-    ax2.plot(epochs, history['val_acc'], label = 'Val Acc')
+    ax2.plot(epochs, history['train_acc'], label='Train Acc')
+    ax2.plot(epochs, history['val_acc'], label='Val Acc')
     ax2.set_title('Accuracy')
     ax2.set_xlabel('Epoch')
     ax2.legend()
+
+    ax3.plot(epochs, history['train_f1'],  label='Train Macro F1')
+    ax3.plot(epochs, history['val_f1'],    label='Val Macro F1')
+    ax3.plot(epochs, history['train_f1w'], label='Train Weighted F1', linestyle='--')
+    ax3.plot(epochs, history['val_f1w'],   label='Val Weighted F1',   linestyle='--')
+    ax3.set_title('F1 Score')
+    ax3.set_xlabel('Epoch')
+    ax3.legend()
 
     plt.tight_layout()
 
