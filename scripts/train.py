@@ -192,6 +192,10 @@ def run_train(args, cfg, p, device):
             ckpt = CheckpointManager.load(p.last_checkpoint(), model, optimizer, device=device)
             start_epoch = ckpt.get('epoch', 0) + 1
             print(f"Resumed from epoch {start_epoch - 1}")
+            for g in optimizer.param_groups:
+                g['lr'] = cfg['training']['learning_rate']
+            print(f"✓ LR forced to {cfg['training']['learning_rate']}")
+
         except FileNotFoundError:
             print("No checkpoint found, starting from scratch")
 
