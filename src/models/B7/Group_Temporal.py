@@ -17,6 +17,8 @@ class GroupActivityB7(nn.Module):
             param.requires_grad = False
 
         self.pool = nn.AdaptiveMaxPool2d((1, 2048))
+        self.layer_norm_feat = nn.LayerNorm(2048 + hidden_size)
+        self.layer_norm_pool = nn.LayerNorm(2048)
 
         self.lstm2 = nn.LSTM(
             input_size=2048,
@@ -33,12 +35,13 @@ class GroupActivityB7(nn.Module):
             nn.Linear(512, 256),
             nn.LayerNorm(256),
             nn.ReLU(),
-            nn.Linear(256, num_classes)
+            nn.Linear(256, num_classes),
         )
 
 
     def forward(self, x):
         b, n, t, c, h, w = x.shape
+
         x = x.view(b * n * t, c, h, w)
         x = self.resnet50(x)
 
@@ -46,12 +49,15 @@ class GroupActivityB7(nn.Module):
         out , _ = self.lstm1(x)
 
         x = torch.cat([x, out] , dim=2)
+        x = self.layer_norm_feat(x)
         x = x.contiguous()
 
         x = x.view(b * t, n, -1)
         x = self.pool(x)
 
         x = x.view(b, t, -1)
+        x = self.layer_norm_pool(x)
+
         x, (_, _) = self.lstm2(x)
         x = x [:, -1, :]
 

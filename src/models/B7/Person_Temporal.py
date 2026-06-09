@@ -8,6 +8,8 @@ class PersonTemp(nn.Module):
 
         resnet = models.resnet50(weights=models.ResNet50_Weights.DEFAULT)
         self.backbone = nn.Sequential(*list(resnet.children())[:-1])
+        self.layer_norm = nn.LayerNorm(input_dim)
+
 
         self.lstm = nn.LSTM(
             input_size=input_dim,
@@ -17,25 +19,28 @@ class PersonTemp(nn.Module):
         )
 
         self.fc = nn.Sequential(
-            nn.Linear(512, 512),
-            nn.BatchNorm1d(512),
+            nn.Linear(hidden_size, 512),
+            nn.LayerNorm(512),
             nn.ReLU(),
             nn.Dropout(0.5),
             nn.Linear(512, 256),
-            nn.BatchNorm1d(256),
+            nn.LayerNorm(256),
             nn.ReLU(),
             nn.Dropout(0.2),
-            nn.Linear(256, num_classes)
+            nn.Linear(256, num_classes),
         )
 
 
     def forward(self, x):
         b, n, t, c, h, w = x.shape
+
         x = x.view(b * n * t, c, h, w)
         x = self.backbone(x)
 
         x = x.view(b * n, t, -1)
-        out, (_, _) = self.lstm(x)
+        x = self.layer_norm(x)
 
+        out, (_, _) = self.lstm(x)
         out = out[:, -1, :]
+
         return self.fc(out)
