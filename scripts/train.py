@@ -178,24 +178,25 @@ def run_train(args, cfg, p, device):
     """Phase 2 — train the main model (on raw imgs or pre-extracted features)."""
     num_classes = cfg['model']['num_classes']
     model = load_model(args.model, num_classes, pretrained=cfg['model']['pretrained'], cfg=cfg).to(device)
-    # ── GPU parallelism ──────────────────────────────────────
+    # GPU parallelism
     if device == 'cuda' and torch.cuda.device_count() > 1:
         model = torch.nn.DataParallel(model)
 
     optimizer = build_optimizer(cfg, model)
     scheduler = build_scheduler(cfg, optimizer)
 
-    # ── Resume from checkpoint ───────────────────────────────
+    # Resume from checkpoint
     start_epoch = 1
+    saved_history = {}
     if args.resume:
         try:
             ckpt = CheckpointManager.load(p.last_checkpoint(), model, optimizer, device=device)
             start_epoch = ckpt.get('epoch', 0) + 1
+            saved_history = ckpt.get('history', {})
             print(f"Resumed from epoch {start_epoch - 1}")
             if scheduler is not None and 'scheduler_state_dict' in ckpt and ckpt['scheduler_state_dict']:
                 scheduler.load_state_dict(ckpt['scheduler_state_dict'])
                 print(f"Scheduler state restored")
-
         except FileNotFoundError:
             print("No checkpoint found, starting from scratch")
 
@@ -221,6 +222,7 @@ def run_train(args, cfg, p, device):
         start_epoch=start_epoch,
         patience=patience,
         cfg=cfg,
+        saved_history=saved_history,
     )
 
 
