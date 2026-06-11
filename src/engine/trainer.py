@@ -143,7 +143,7 @@ def train(
         shutil.copytree('checkpoints', '/kaggle/working/checkpoints', dirs_exist_ok=True)
         shutil.copytree('results', '/kaggle/working/results', dirs_exist_ok=True)
         shutil.copytree('logs', '/kaggle/working/logs', dirs_exist_ok=True)
-        if os.path.exists('mlruns'):  # ← guard
+        if os.path.exists('mlruns'):
             shutil.copytree('mlruns', '/kaggle/working/mlruns', dirs_exist_ok=True)
         log.info("Saved outputs to /kaggle/working/")
 
