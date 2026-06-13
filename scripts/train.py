@@ -211,7 +211,6 @@ def run_train(args, cfg, p, device):
     class_weights = (class_weights / class_weights.sum()).to(device)
 
     criterion = nn.CrossEntropyLoss(
-        weight=class_weights,
         label_smoothing=cfg['training'].get('label_smoothing', 0.0),
     )
 
