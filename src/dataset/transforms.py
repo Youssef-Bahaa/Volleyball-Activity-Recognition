@@ -2,29 +2,30 @@ from torchvision import transforms
 import albumentations as A
 from albumentations.pytorch import ToTensorV2
 
-train_transforms = A.Compose([
-    A.Resize(224, 224),
-    A.OneOf([
-        A.GaussianBlur(blur_limit=(3, 7)),
-        A.ColorJitter(brightness=0.2),
-        A.RandomBrightnessContrast(),
-        A.GaussNoise()
-    ], p=0.5),
-    A.OneOf([
-        A.HorizontalFlip(),
-        A.VerticalFlip(),
-    ], p=0.05),
-    A.Normalize(
+
+train_transform = transforms.Compose([
+    transforms.Resize((224, 224)),
+    transforms.RandomApply([
+        transforms.ColorJitter(
+            brightness=0.3, contrast=0.3,
+            saturation=0.2, hue=0.05)
+    ], p=0.7),
+    transforms.RandomGrayscale(p=0.05),
+    transforms.RandomHorizontalFlip(p=0.05),
+    transforms.ToTensor(),
+    transforms.Normalize(
         mean=[0.485, 0.456, 0.406],
-        std=[0.229, 0.224, 0.225]
+        std=[0.229, 0.224, 0.225],
     ),
-    ToTensorV2()
 ])
 
-val_transforms = A.Compose([
-    A.Resize(224, 224),
-    A.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
-    ToTensorV2()
+val_transform = transforms.Compose([
+    transforms.Resize((224, 224)),
+    transforms.ToTensor(),
+    transforms.Normalize(
+        mean=[0.485, 0.456, 0.406],
+        std=[0.229, 0.224, 0.225],
+    ),
 ])
 
 test_transform = val_transform
