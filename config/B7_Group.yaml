@@ -10,9 +10,9 @@ training:
   learning_rate: 0.0003
   weight_decay: 0.1
   label_smoothing: 0.1
-  epochs: 25
+  epochs: 20
   optimizer: "AdamW"
-  scheduler: "CosineAnnealingLR"
+  scheduler: "ReduceLROnPlateau"
   scheduler_mode: "min"
   min_lr: 1e-7
   scheduler_T_max: 22
