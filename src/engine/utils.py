@@ -25,14 +25,29 @@ def set_seed(seed: int):
 
 
 def build_optimizer(cfg: dict, model):
-    lr = cfg['training']['learning_rate']
     weight_decay = cfg['training'].get('weight_decay', 0.0)
     optimizer_name = cfg['training'].get('optimizer', 'Adam')
 
+    base_model = model.module if hasattr(model, 'module') else model
+
+    if 'lr_backbone' in cfg['training'] and hasattr(base_model, 'backbone'):
+        lr_backbone = cfg['training']['lr_backbone']
+        lr_head = cfg['training']['lr_head']
+        param_groups = [
+            {'params': [p for i, c in enumerate(base_model.backbone.children())
+                        for p in c.parameters() if i >= 6], 'lr': lr_backbone},
+            {'params': base_model.layer_norm.parameters(), 'lr': lr_head},
+            {'params': base_model.lstm.parameters(), 'lr': lr_head},
+            {'params': base_model.fc.parameters(), 'lr': lr_head},
+        ]
+    else:
+        lr = cfg['training']['learning_rate']
+        param_groups = [{'params': model.parameters(), 'lr': lr}]
+
     if optimizer_name == 'AdamW':
-        return torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=weight_decay)
+        return torch.optim.AdamW(param_groups, weight_decay=weight_decay)
     elif optimizer_name == 'Adam':
-        return torch.optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
+        return torch.optim.Adam(param_groups, weight_decay=weight_decay)
     else:
         raise ValueError(f"Unknown optimizer: {optimizer_name}")
 

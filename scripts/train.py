@@ -20,6 +20,7 @@ LOADER_REGISTRY = {
     'B6': 'src.dataset.DataLoader.B6_features_loader',
     'B7_Person': 'src.dataset.DataLoader.B7_Person',
     'B7_Group': 'src.dataset.DataLoader.B6_Group',
+    'B8_Person': 'src.dataset.DataLoader.B7_Person',
     'B8_Group': 'src.dataset.DataLoader.B6_Group',
 }
 
@@ -92,6 +93,12 @@ MODEL_REGISTRY = {
         "phases": ["train"],
         "loader": "src.dataset.DataLoader.B6_Group",
     },
+    "B8_Person": {
+        "module": "src.models.B8.Person_Temporal",
+        "class": "PersonTemp",
+        "phases": ["train"],
+        "loader": "src.dataset.DataLoader.B7_Person",
+    },
     "B8_Group": {
         "module": "src.models.B8.Group_Temporal",
         "class": "GroupActivityB8",
@@ -141,6 +148,7 @@ def load_model(name, nclasses, pretrained=True, cfg=None):
         ckpt_path = Paths('.', model_name='B7_Person').best_checkpoint()
         CheckpointManager.load(ckpt_path, person_model, device='cpu')
         return cls(player_model=person_model, num_classes=nclasses)
+
 
     elif name == 'B8_Group':
         person_cls = getattr(
