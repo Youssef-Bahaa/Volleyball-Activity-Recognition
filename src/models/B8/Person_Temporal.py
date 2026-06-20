@@ -10,11 +10,6 @@ class PersonTemp(nn.Module):
         self.backbone = nn.Sequential(*list(resnet.children())[:-1])
         self.layer_norm = nn.LayerNorm(input_dim)
 
-        for i, child in enumerate(self.backbone.children()):
-            requires_grad = i >= 6
-            for param in child.parameters():
-                param.requires_grad = requires_grad
-
         self.lstm = nn.LSTM(
             input_size=input_dim,
             hidden_size=hidden_size,

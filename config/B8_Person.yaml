@@ -9,17 +9,16 @@ training:
   batch_size: 4
   label_smoothing: 0.1
   weight_decay: 0.1
-  epochs: 25
+  epochs: 20
 
-  lr_backbone: 1e-5
-  lr_head: 3e-4
+  learning_rate: 3e-4
 
   optimizer: "AdamW"
   scheduler: "ReduceLROnPlateau"
   scheduler_mode: "min"
   min_lr: 1e-6
   scheduler_factor: 0.1
-  scheduler_patience: 5
+  scheduler_patience: 3
   grad_clip: 1.0
 
   num_workers: 4
