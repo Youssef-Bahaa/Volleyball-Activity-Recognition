@@ -8,11 +8,11 @@ model:
 training:
   batch_size: 4
   label_smoothing: 0.1
-  weight_decay: 0.05
-  epochs: 40
+  weight_decay: 0.1
+  epochs: 25
 
   lr_backbone: 1e-5
-  lr_head: 1e-4
+  lr_head: 3e-4
 
   optimizer: "AdamW"
   scheduler: "ReduceLROnPlateau"

@@ -239,6 +239,17 @@ def run_train(args, cfg, p, device):
             weight=class_weights,
             label_smoothing=cfg['training'].get('label_smoothing', 0.0),
         )
+    elif args.model in ['B7_Person', 'B8_Person']:
+        all_labels = torch.cat([
+            batch[-1] for batch in train_loader
+        ]).long()  # ← add .long()
+        class_counts = torch.bincount(all_labels, minlength=num_classes).float()
+        class_weights = len(all_labels) / (num_classes * class_counts)
+        class_weights = (class_weights / class_weights.sum()).to(device)
+        criterion = nn.CrossEntropyLoss(
+            weight=class_weights,
+            label_smoothing=cfg['training'].get('label_smoothing', 0.0),
+        )
     else:
         criterion = nn.CrossEntropyLoss(
             label_smoothing=cfg['training'].get('label_smoothing', 0.0),
