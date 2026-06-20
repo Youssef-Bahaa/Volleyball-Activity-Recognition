@@ -42,13 +42,13 @@ def build_optimizer(cfg: dict, model):
         ]
         default_lr = lr_head
     else:
-        lr = cfg['training']['learning_rate']
-        param_groups = [{'params': model.parameters(), 'lr': lr}]
+        default_lr = cfg['training']['learning_rate']
+        param_groups = [{'params': model.parameters(), 'lr': default_lr}]
 
     if optimizer_name == 'AdamW':
-        return torch.optim.AdamW(param_groups, weight_decay=weight_decay)
+        return torch.optim.AdamW(param_groups, lr=default_lr, weight_decay=weight_decay)  # ← lr= added
     elif optimizer_name == 'Adam':
-        return torch.optim.Adam(param_groups, weight_decay=weight_decay)
+        return torch.optim.Adam(param_groups, lr=default_lr, weight_decay=weight_decay)  # ← lr= added
     else:
         raise ValueError(f"Unknown optimizer: {optimizer_name}")
 
