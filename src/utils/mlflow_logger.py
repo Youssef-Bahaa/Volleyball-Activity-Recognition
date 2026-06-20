@@ -17,16 +17,18 @@ def setup_mlflow(cfg, model_name):
 
 
 def log_params(cfg):
+    training = cfg['training']
     mlflow.log_params({
         "model": cfg['model']['name'],
         "num_classes": cfg['model']['num_classes'],
-        "batch_size": cfg['training']['batch_size'],
-        "learning_rate": cfg['training']['learning_rate'],
-        "weight_decay": cfg['training']['weight_decay'],
-        "epochs": cfg['training']['epochs'],
-        "optimizer":  cfg['training']['optimizer'],
-        "scheduler": cfg['training']['scheduler'],
+        "batch_size": training['batch_size'],
+        "weight_decay": training['weight_decay'],
+        "epochs":training['epochs'],
+        "optimizer": training['optimizer'],
+        "scheduler": training['scheduler'],
         "seed": cfg['experiment']['seed'],
+        "lr_backbone": training.get('lr_backbone', training.get('learning_rate', 'N/A')),
+        "lr_head": training.get('lr_head', training.get('learning_rate', 'N/A')),
     })
 
 def log_epoch(epoch, train_loss, train_acc, train_f1, val_loss, val_acc, val_f1, lr):

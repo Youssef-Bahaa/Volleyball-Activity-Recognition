@@ -9,7 +9,7 @@ training:
   batch_size: 4
   label_smoothing: 0.1
   weight_decay: 0.05
-  epochs: 28
+  epochs: 40
 
   lr_backbone: 1e-5
   lr_head: 1e-4
