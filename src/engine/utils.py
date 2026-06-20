@@ -40,6 +40,7 @@ def build_optimizer(cfg: dict, model):
             {'params': base_model.lstm.parameters(), 'lr': lr_head},
             {'params': base_model.fc.parameters(), 'lr': lr_head},
         ]
+        default_lr = lr_head
     else:
         lr = cfg['training']['learning_rate']
         param_groups = [{'params': model.parameters(), 'lr': lr}]
