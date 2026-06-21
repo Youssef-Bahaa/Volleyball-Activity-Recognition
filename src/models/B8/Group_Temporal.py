@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 
 class GroupActivityB8(nn.Module):
-    def __init__(self, player_model, hidden_size = 512, num_classes=8):
+    def __init__(self, player_model, hidden_size=512, num_classes=8):
         super(GroupActivityB8, self).__init__()
 
         base = player_model.module if hasattr(player_model, 'module') else player_model
@@ -12,17 +12,18 @@ class GroupActivityB8(nn.Module):
 
         for param in self.resnet50.parameters():
             param.requires_grad = False
-
         for param in self.lstm1.parameters():
             param.requires_grad = False
 
         self.pool = nn.AdaptiveMaxPool2d((1, 1024))
+        self.layer_norm = nn.LayerNorm(2048)
 
         self.lstm2 = nn.LSTM(
             input_size=2048,
             hidden_size=hidden_size,
             num_layers=2,
-            batch_first=True
+            batch_first=True,
+            dropout=0.3
         )
 
         self.classifier = nn.Sequential(
@@ -47,10 +48,10 @@ class GroupActivityB8(nn.Module):
         x = self.resnet50(x)
 
         x = x.view(b * n, t, -1)
-        out , _ = self.lstm1(x)
+        x = self.layer_norm(x)
+        out, _ = self.lstm1(x)
 
-        x = torch.cat([x, out] , dim=2)
-        x = x.contiguous()
+        x = torch.cat([x, out], dim=2).contiguous()
 
         x = x.view(b * t, n, -1)
         team1 = x[:, :6, :]
@@ -62,10 +63,8 @@ class GroupActivityB8(nn.Module):
         x = torch.cat([team1, team2], dim=1)
 
         x = x.view(b, t, -1)
-        x, (_, _) = self.lstm2(x)
-        x = x [:, -1, :]
+        x = self.layer_norm(x)
+        x, _ = self.lstm2(x)
+        x = x[:, -1, :]
 
         return self.classifier(x)
-
-
-

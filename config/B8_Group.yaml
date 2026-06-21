@@ -9,7 +9,7 @@ training:
   batch_size: 8
   learning_rate: 0.0005
   weight_decay: 0.001
-  epochs: 40
+  epochs: 60
   optimizer: "AdamW"
   scheduler: "ReduceLROnPlateau"
   scheduler_mode: "min"
