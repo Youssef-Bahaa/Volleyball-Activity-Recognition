@@ -15,51 +15,49 @@ class GroupActivityB8(nn.Module):
         for param in self.lstm1.parameters():
             param.requires_grad = False
 
-        self.layer_norm_person = nn.LayerNorm(2048)
-        self.layer_norm_group = nn.LayerNorm(2048)
-        self.pool = nn.AdaptiveMaxPool2d((1, 1024))
+        # pools over 6 players, keeps 2048 features -> squeeze -> [b*t, 2048]
+        self.pooling = nn.AdaptiveMaxPool2d((1, 2048))
 
         self.lstm2 = nn.LSTM(
-            input_size=2048,
+            input_size=4096,   # cat(left_team, right_team) = 2048 + 2048
             hidden_size=hidden_size,
-            num_layers=2,
+            num_layers=1,
             batch_first=True,
-            dropout=0.3,
         )
 
-        self.classifier = nn.Sequential(
-            nn.Linear(hidden_size, 1024),
-            nn.BatchNorm1d(1024), nn.ReLU(), nn.Dropout(0.5),
-            nn.Linear(1024, 512),
-            nn.BatchNorm1d(512), nn.ReLU(), nn.Dropout(0.4),
-            nn.Linear(512, 256),
-            nn.BatchNorm1d(256), nn.ReLU(), nn.Dropout(0.3),
-            nn.Linear(256, 128),
-            nn.BatchNorm1d(128), nn.ReLU(), nn.Dropout(0.2),
-            nn.Linear(128, num_classes),
+        self.fc = nn.Sequential(
+            nn.Linear(hidden_size, hidden_size),
+            nn.BatchNorm1d(hidden_size),
+            nn.ReLU(),
+            nn.Dropout(0.5),
+            nn.Linear(hidden_size, num_classes)
         )
 
     def forward(self, x):
         b, n, t, c, h, w = x.shape
 
         x = x.view(b * n * t, c, h, w)
-        x = self.resnet50(x)
+        x = self.resnet50(x)               # [b*n*t, 2048, 1, 1]
 
-        x = x.view(b * n, t, -1)
-        x = self.layer_norm_person(x)
-        out, _ = self.lstm1(x)
+        x = x.view(b * n, t, -1)          # [b*n, t, 2048]
+        out, _ = self.lstm1(x)             # [b*n, t, 512]
 
-        x = torch.cat([x, out], dim=2).contiguous()
+        x = torch.cat([x, out], dim=-1)    # [b*n, t, 2560]
+        x = x.view(b, n, t, -1)           # [b, n, t, 2560]
+        x = x.permute(0, 2, 1, 3)         # [b, t, n, 2560]
+        x = x.contiguous().view(b*t, n, -1)  # [b*t, n, 2560]
 
-        x = x.view(b * t, n, -1)
-        team1 = self.pool(x[:, :6, :])
-        team2 = self.pool(x[:, 6:, :])
+        left_team = x[:, :6, :]           # [b*t, 6, 2560]
+        right_team = x[:, 6:, :]           # [b*t, 6, 2560]
 
-        x = torch.cat([team1, team2], dim=1)
+        # pool over 6 players → [b*t, 1, 2048] -> squeeze -> [b*t, 2048]
+        left_team  = self.pooling(left_team).squeeze(1)
+        right_team = self.pooling(right_team).squeeze(1)
 
-        x = x.view(b, t, -1)
-        x = self.layer_norm_group(x)
-        x, _ = self.lstm2(x)
-        x = x[:, -1, :]
+        x = torch.cat([left_team, right_team], dim=1)  # [b*t, 4096]
+        x = x.view(b, t, -1)              # [b, t, 4096]
 
-        return self.classifier(x)
+        x, _ = self.lstm2(x)              # [b, t, 512]
+        x = x[:, -1, :]                   # [b, 512]
+
+        return self.fc(x)

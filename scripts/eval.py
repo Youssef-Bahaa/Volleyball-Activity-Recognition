@@ -23,7 +23,7 @@ LOADER_REGISTRY = {
     'B7_Person': 'src.dataset.DataLoader.B7_Person',
     'B7_Group': 'src.dataset.DataLoader.B6_Group',
     'B8_Person': 'src.dataset.DataLoader.B7_Person',
-    'B8_GROUP': 'src.dataset.DataLoader.B6_Group',
+    'B8_GROUP': 'src.dataset.DataLoader.B8_Group',
 }
 
 MODEL_REGISTRY = {
@@ -107,7 +107,7 @@ MODEL_REGISTRY = {
         "module": "src.models.B8.Group_Temporal",
         "class": "GroupActivityB8",
         "phases": ["train"],
-        "loader": "src.dataset.DataLoader.B6_Group",
+        "loader": "src.dataset.DataLoader.B8_Group",
     },
 }
 

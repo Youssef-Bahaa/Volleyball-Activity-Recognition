@@ -21,7 +21,7 @@ LOADER_REGISTRY = {
     'B7_Person': 'src.dataset.DataLoader.B7_Person',
     'B7_Group': 'src.dataset.DataLoader.B6_Group',
     'B8_Person': 'src.dataset.DataLoader.B7_Person',
-    'B8_Group': 'src.dataset.DataLoader.B6_Group',
+    'B8_Group': 'src.dataset.DataLoader.B8_Group',
 }
 
 MODEL_REGISTRY = {
@@ -103,7 +103,7 @@ MODEL_REGISTRY = {
         "module": "src.models.B8.Group_Temporal",
         "class": "GroupActivityB8",
         "phases": ["train"],
-        "loader": "src.dataset.DataLoader.B6_Group",
+        "loader": "src.dataset.DataLoader.B8_Group",
     },
 }
 def _import(module_path, class_name):
@@ -190,19 +190,27 @@ def run_train(args, cfg, p, device):
     if device == 'cuda' and torch.cuda.device_count() > 1:
         model = torch.nn.DataParallel(model)
 
-    if args.model == 'B7_Group':
-        base_lr  = cfg['training']['learning_rate']
+    if args.model in ['B7_Group', 'B8_Group']:
+        base_lr = cfg['training']['learning_rate']
         lstm1_lr = cfg['training'].get('lstm1_lr', 1e-5)
         base_model = model.module if hasattr(model, 'module') else model
 
-        optimizer = torch.optim.AdamW([
-            {'params': base_model.lstm1.parameters(), 'lr': lstm1_lr},
-            {'params': base_model.lstm2.parameters(), 'lr': base_lr},
-            {'params': base_model.layer_norm_input.parameters(),'lr': base_lr},
-            {'params': base_model.layer_norm_feat.parameters(), 'lr': base_lr},
-            {'params': base_model.layer_norm_pool.parameters(), 'lr': base_lr},
-            {'params': base_model.classifier.parameters(), 'lr': base_lr},
-        ], weight_decay=cfg['training']['weight_decay'])
+        if args.model == 'B7_Group':
+            optimizer = torch.optim.AdamW([
+                {'params': base_model.lstm1.parameters(), 'lr': lstm1_lr},
+                {'params': base_model.lstm2.parameters(), 'lr': base_lr},
+                {'params': base_model.layer_norm_input.parameters(),'lr': base_lr},
+                {'params': base_model.layer_norm_feat.parameters(), 'lr': base_lr},
+                {'params': base_model.layer_norm_pool.parameters(), 'lr': base_lr},
+                {'params': base_model.classifier.parameters(), 'lr': base_lr},
+            ], weight_decay=cfg['training']['weight_decay'])
+
+        else:  # B8_Group
+            optimizer = torch.optim.AdamW([
+                {'params': base_model.lstm1.parameters(), 'lr': lstm1_lr},
+                {'params': base_model.lstm2.parameters(), 'lr': base_lr},
+                {'params': base_model.fc.parameters(),    'lr': base_lr},
+            ], weight_decay=cfg['training']['weight_decay'])
     else:
         optimizer = build_optimizer(cfg, model)
 
@@ -225,24 +233,9 @@ def run_train(args, cfg, p, device):
 
     train_loader, val_loader, _ = load_loaders(args.model, cfg)
 
-    GROUP_MODELS = {'B7_Group', 'B8_Group', 'B5_GROUP', 'B6_Group'}
-
-    if args.model in GROUP_MODELS:
-        all_labels = torch.cat([
-            batch[-1].argmax(1) if batch[-1].dim() > 1 else batch[-1]
-            for batch in train_loader
-        ])
-        class_counts = torch.bincount(all_labels, minlength=num_classes).float()
-        class_weights = len(all_labels) / (num_classes * class_counts)
-        class_weights = (class_weights / class_weights.sum()).to(device)
-        criterion = nn.CrossEntropyLoss(
-            weight=class_weights,
-            label_smoothing=cfg['training'].get('label_smoothing', 0.0),
-        )
-    else:
-        criterion = nn.CrossEntropyLoss(
-            label_smoothing=cfg['training'].get('label_smoothing', 0.0),
-        )
+    criterion = nn.CrossEntropyLoss(
+        label_smoothing=cfg['training'].get('label_smoothing', 0.0),
+    )
 
     patience = (
         args.patience if args.patience is not None else cfg['training'].get('patience', 7)
