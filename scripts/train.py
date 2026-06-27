@@ -152,7 +152,7 @@ def load_model(name, nclasses, pretrained=True, cfg=None):
 
     elif name == 'B8_Group':
         person_cls = getattr(
-            importlib.import_module("src.models.B7.Person_Temporal"), "PersonTemp"
+            importlib.import_module("src.models.B8.Person_Temporal"), "PersonTemp"
         )
         person_model = person_cls()
         ckpt_path = Paths('.', model_name='B7_Person').best_checkpoint()
