@@ -77,7 +77,7 @@ def _process_video(video_path: str) -> list:
     cap = cv2.VideoCapture(video_path)
     fps = cap.get(cv2.CAP_PROP_FPS) or 30.0
 
-    SAMPLE_EVERY = 6
+    SAMPLE_EVERY = 3
     frames = []
     idx = 0
     while True:
@@ -91,7 +91,7 @@ def _process_video(video_path: str) -> list:
 
     effective_fps = fps / SAMPLE_EVERY
     WINDOW = 9
-    STRIDE = int(effective_fps * 2)
+    STRIDE = int(effective_fps)
     total = len(frames)
 
     if total < WINDOW:
