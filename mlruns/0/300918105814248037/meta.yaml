@@ -1,0 +1,9 @@
+artifact_location: /kaggle/working/mlruns/300918105814248037
+creation_time: 1782550147054
+effective_trace_archival_retention: null
+experiment_id: '300918105814248037'
+last_update_time: 1782550147054
+lifecycle_stage: active
+name: B8_resnet50_team_split_group
+trace_location: null
+workspace: default

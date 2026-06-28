@@ -1,0 +1,14 @@
+artifact_uri: /kaggle/working/mlruns/300918105814248037/2a5662fabfc94a5ca6f5591581b00369/artifacts
+end_time: null
+entry_point_name: ''
+experiment_id: '300918105814248037'
+lifecycle_stage: active
+run_id: 2a5662fabfc94a5ca6f5591581b00369
+run_name: B8_Group_run
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1782550147289
+status: 1
+tags: []
+user_id: root

@@ -1,0 +1,361 @@
+08:49:07  INFO      [train_B8_Group]  Device: cuda | Seed: 42
+08:49:07  INFO      [train_B8_Group]  ── Epoch [1/60] ───────────────
+09:04:49  INFO      [train_B8_Group]  train loss=1.0674 acc=0.6710 macro_f1=0.6300 weighted_f1=0.6652
+09:04:49  INFO      [train_B8_Group]  val loss=0.6231 acc=0.8434 macro_f1=0.8426 weighted_f1=0.8433
+09:04:49  INFO      [train_B8_Group]  lr=1.00e-04
+09:04:50  INFO      [train_B8_Group]  Curves : results/B8_Group/figures/training_curves.png
+09:04:50  INFO      [train_B8_Group]  Saved checkpoint: checkpoints/B8_Group/epoch_01_acc_0.8434.pth
+09:04:50  INFO      [train_B8_Group]  Saved last checkpoint: checkpoints/B8_Group/last.pth
+09:04:50  INFO      [train_B8_Group]  ── Epoch [2/60] ───────────────
+09:20:28  INFO      [train_B8_Group]  train loss=0.5167 acc=0.8662 macro_f1=0.8611 weighted_f1=0.8661
+09:20:28  INFO      [train_B8_Group]  val loss=0.4847 acc=0.8702 macro_f1=0.8726 weighted_f1=0.8705
+09:20:28  INFO      [train_B8_Group]  lr=1.00e-04
+09:20:29  INFO      [train_B8_Group]  Curves : results/B8_Group/figures/training_curves.png
+09:20:29  INFO      [train_B8_Group]  Saved checkpoint: checkpoints/B8_Group/epoch_02_acc_0.8702.pth
+09:20:30  INFO      [train_B8_Group]  Saved last checkpoint: checkpoints/B8_Group/last.pth
+09:20:30  INFO      [train_B8_Group]  Removed old checkpoint: checkpoints/B8_Group/epoch_01_acc_0.8434.pth
+09:20:30  INFO      [train_B8_Group]  ── Epoch [3/60] ───────────────
+09:36:05  INFO      [train_B8_Group]  train loss=0.4291 acc=0.8857 macro_f1=0.8846 weighted_f1=0.8860
+09:36:05  INFO      [train_B8_Group]  val loss=0.4518 acc=0.8717 macro_f1=0.8758 weighted_f1=0.8725
+09:36:05  INFO      [train_B8_Group]  lr=1.00e-04
+09:36:05  INFO      [train_B8_Group]  Curves : results/B8_Group/figures/training_curves.png
+09:36:06  INFO      [train_B8_Group]  Saved checkpoint: checkpoints/B8_Group/epoch_03_acc_0.8717.pth
+09:36:06  INFO      [train_B8_Group]  Saved last checkpoint: checkpoints/B8_Group/last.pth
+09:36:06  INFO      [train_B8_Group]  Removed old checkpoint: checkpoints/B8_Group/epoch_02_acc_0.8702.pth
+09:36:06  INFO      [train_B8_Group]  ── Epoch [4/60] ───────────────
+09:51:38  INFO      [train_B8_Group]  train loss=0.3718 acc=0.8950 macro_f1=0.8934 weighted_f1=0.8952
+09:51:38  INFO      [train_B8_Group]  val loss=0.4309 acc=0.8881 macro_f1=0.8893 weighted_f1=0.8886
+09:51:38  INFO      [train_B8_Group]  lr=1.00e-04
+09:51:39  INFO      [train_B8_Group]  Curves : results/B8_Group/figures/training_curves.png
+09:51:39  INFO      [train_B8_Group]  Saved checkpoint: checkpoints/B8_Group/epoch_04_acc_0.8881.pth
+09:51:40  INFO      [train_B8_Group]  Saved last checkpoint: checkpoints/B8_Group/last.pth
+09:51:40  INFO      [train_B8_Group]  Removed old checkpoint: checkpoints/B8_Group/epoch_03_acc_0.8717.pth
+09:51:40  INFO      [train_B8_Group]  ── Epoch [5/60] ───────────────
+10:07:15  INFO      [train_B8_Group]  train loss=0.3057 acc=0.9145 macro_f1=0.9148 weighted_f1=0.9146
+10:07:15  INFO      [train_B8_Group]  val loss=0.4291 acc=0.8777 macro_f1=0.8818 weighted_f1=0.8784
+10:07:15  INFO      [train_B8_Group]  lr=1.00e-04
+10:07:16  INFO      [train_B8_Group]  Curves : results/B8_Group/figures/training_curves.png
+10:07:16  INFO      [train_B8_Group]  Saved checkpoint: checkpoints/B8_Group/epoch_05_acc_0.8777.pth
+10:07:17  INFO      [train_B8_Group]  Saved last checkpoint: checkpoints/B8_Group/last.pth
+10:07:17  INFO      [train_B8_Group]  Removed old checkpoint: checkpoints/B8_Group/epoch_05_acc_0.8777.pth
+10:07:17  INFO      [train_B8_Group]  ── Epoch [6/60] ───────────────
+10:23:04  INFO      [train_B8_Group]  train loss=0.2645 acc=0.9257 macro_f1=0.9283 weighted_f1=0.9259
+10:23:04  INFO      [train_B8_Group]  val loss=0.4944 acc=0.8598 macro_f1=0.8625 weighted_f1=0.8612
+10:23:04  INFO      [train_B8_Group]  lr=1.00e-04
+10:23:05  INFO      [train_B8_Group]  Curves : results/B8_Group/figures/training_curves.png
+10:23:05  INFO      [train_B8_Group]  Saved checkpoint: checkpoints/B8_Group/epoch_06_acc_0.8598.pth
+10:23:06  INFO      [train_B8_Group]  Saved last checkpoint: checkpoints/B8_Group/last.pth
+10:23:06  INFO      [train_B8_Group]  Removed old checkpoint: checkpoints/B8_Group/epoch_06_acc_0.8598.pth
+10:23:06  INFO      [train_B8_Group]  ── Epoch [7/60] ───────────────
+10:38:53  INFO      [train_B8_Group]  train loss=0.2429 acc=0.9303 macro_f1=0.9340 weighted_f1=0.9304
+10:38:53  INFO      [train_B8_Group]  val loss=0.4144 acc=0.8896 macro_f1=0.8894 weighted_f1=0.8901
+10:38:53  INFO      [train_B8_Group]  lr=1.00e-04
+10:38:53  INFO      [train_B8_Group]  Curves : results/B8_Group/figures/training_curves.png
+10:38:54  INFO      [train_B8_Group]  Saved checkpoint: checkpoints/B8_Group/epoch_07_acc_0.8896.pth
+10:38:54  INFO      [train_B8_Group]  Saved last checkpoint: checkpoints/B8_Group/last.pth
+10:38:54  INFO      [train_B8_Group]  Removed old checkpoint: checkpoints/B8_Group/epoch_04_acc_0.8881.pth
+10:38:54  INFO      [train_B8_Group]  ── Epoch [8/60] ───────────────
+10:54:35  INFO      [train_B8_Group]  train loss=0.2240 acc=0.9322 macro_f1=0.9304 weighted_f1=0.9321
+10:54:35  INFO      [train_B8_Group]  val loss=0.4667 acc=0.8747 macro_f1=0.8769 weighted_f1=0.8744
+10:54:35  INFO      [train_B8_Group]  lr=1.00e-04
+10:54:35  INFO      [train_B8_Group]  Curves : results/B8_Group/figures/training_curves.png
+10:54:36  INFO      [train_B8_Group]  Saved checkpoint: checkpoints/B8_Group/epoch_08_acc_0.8747.pth
+10:54:36  INFO      [train_B8_Group]  Saved last checkpoint: checkpoints/B8_Group/last.pth
+10:54:36  INFO      [train_B8_Group]  Removed old checkpoint: checkpoints/B8_Group/epoch_08_acc_0.8747.pth
+10:54:36  INFO      [train_B8_Group]  ── Epoch [9/60] ───────────────
+11:10:23  INFO      [train_B8_Group]  train loss=0.2111 acc=0.9396 macro_f1=0.9412 weighted_f1=0.9396
+11:10:23  INFO      [train_B8_Group]  val loss=0.5108 acc=0.8620 macro_f1=0.8670 weighted_f1=0.8617
+11:10:23  INFO      [train_B8_Group]  lr=1.00e-04
+11:10:23  INFO      [train_B8_Group]  Curves : results/B8_Group/figures/training_curves.png
+11:10:24  INFO      [train_B8_Group]  Saved checkpoint: checkpoints/B8_Group/epoch_09_acc_0.8620.pth
+11:10:24  INFO      [train_B8_Group]  Saved last checkpoint: checkpoints/B8_Group/last.pth
+11:10:24  INFO      [train_B8_Group]  Removed old checkpoint: checkpoints/B8_Group/epoch_09_acc_0.8620.pth
+11:10:24  INFO      [train_B8_Group]  ── Epoch [10/60] ───────────────
+11:26:10  INFO      [train_B8_Group]  train loss=0.1883 acc=0.9475 macro_f1=0.9478 weighted_f1=0.9475
+11:26:10  INFO      [train_B8_Group]  val loss=0.5309 acc=0.8576 macro_f1=0.8622 weighted_f1=0.8579
+11:26:10  INFO      [train_B8_Group]  lr=1.00e-04
+11:26:10  INFO      [train_B8_Group]  Curves : results/B8_Group/figures/training_curves.png
+11:26:11  INFO      [train_B8_Group]  Saved checkpoint: checkpoints/B8_Group/epoch_10_acc_0.8576.pth
+11:26:11  INFO      [train_B8_Group]  Saved last checkpoint: checkpoints/B8_Group/last.pth
+11:26:12  INFO      [train_B8_Group]  Removed old checkpoint: checkpoints/B8_Group/epoch_10_acc_0.8576.pth
+11:26:12  INFO      [train_B8_Group]  ── Epoch [11/60] ───────────────
+11:42:02  INFO      [train_B8_Group]  train loss=0.1666 acc=0.9531 macro_f1=0.9540 weighted_f1=0.9530
+11:42:02  INFO      [train_B8_Group]  val loss=0.5763 acc=0.8412 macro_f1=0.8385 weighted_f1=0.8437
+11:42:02  INFO      [train_B8_Group]  lr=1.00e-04
+11:42:02  INFO      [train_B8_Group]  Curves : results/B8_Group/figures/training_curves.png
+11:42:03  INFO      [train_B8_Group]  Saved checkpoint: checkpoints/B8_Group/epoch_11_acc_0.8412.pth
+11:42:03  INFO      [train_B8_Group]  Saved last checkpoint: checkpoints/B8_Group/last.pth
+11:42:03  INFO      [train_B8_Group]  Removed old checkpoint: checkpoints/B8_Group/epoch_11_acc_0.8412.pth
+11:42:03  INFO      [train_B8_Group]  ── Epoch [12/60] ───────────────
+11:57:52  INFO      [train_B8_Group]  train loss=0.1779 acc=0.9447 macro_f1=0.9461 weighted_f1=0.9447
+11:57:52  INFO      [train_B8_Group]  val loss=0.5152 acc=0.8658 macro_f1=0.8666 weighted_f1=0.8662
+11:57:52  INFO      [train_B8_Group]  lr=1.00e-04
+11:57:53  INFO      [train_B8_Group]  Curves : results/B8_Group/figures/training_curves.png
+11:57:53  INFO      [train_B8_Group]  Saved checkpoint: checkpoints/B8_Group/epoch_12_acc_0.8658.pth
+11:57:54  INFO      [train_B8_Group]  Saved last checkpoint: checkpoints/B8_Group/last.pth
+11:57:54  INFO      [train_B8_Group]  Removed old checkpoint: checkpoints/B8_Group/epoch_12_acc_0.8658.pth
+11:57:54  INFO      [train_B8_Group]  ── Epoch [13/60] ───────────────
+12:13:56  INFO      [train_B8_Group]  train loss=0.1541 acc=0.9521 macro_f1=0.9535 weighted_f1=0.9521
+12:13:56  INFO      [train_B8_Group]  val loss=0.5521 acc=0.8606 macro_f1=0.8641 weighted_f1=0.8616
+12:13:56  INFO      [train_B8_Group]  lr=1.00e-05
+12:13:56  INFO      [train_B8_Group]  Curves : results/B8_Group/figures/training_curves.png
+12:13:57  INFO      [train_B8_Group]  Saved checkpoint: checkpoints/B8_Group/epoch_13_acc_0.8606.pth
+12:13:57  INFO      [train_B8_Group]  Saved last checkpoint: checkpoints/B8_Group/last.pth
+12:13:57  INFO      [train_B8_Group]  Removed old checkpoint: checkpoints/B8_Group/epoch_13_acc_0.8606.pth
+12:13:57  INFO      [train_B8_Group]  ── Epoch [14/60] ───────────────
+12:30:35  INFO      [train_B8_Group]  train loss=0.1441 acc=0.9591 macro_f1=0.9590 weighted_f1=0.9591
+12:30:35  INFO      [train_B8_Group]  val loss=0.5397 acc=0.8665 macro_f1=0.8699 weighted_f1=0.8670
+12:30:35  INFO      [train_B8_Group]  lr=1.00e-05
+12:30:36  INFO      [train_B8_Group]  Curves : results/B8_Group/figures/training_curves.png
+12:30:36  INFO      [train_B8_Group]  Saved checkpoint: checkpoints/B8_Group/epoch_14_acc_0.8665.pth
+12:30:37  INFO      [train_B8_Group]  Saved last checkpoint: checkpoints/B8_Group/last.pth
+12:30:37  INFO      [train_B8_Group]  Removed old checkpoint: checkpoints/B8_Group/epoch_14_acc_0.8665.pth
+12:30:37  INFO      [train_B8_Group]  ── Epoch [15/60] ───────────────
+12:46:41  INFO      [train_B8_Group]  train loss=0.1134 acc=0.9712 macro_f1=0.9708 weighted_f1=0.9712
+12:46:41  INFO      [train_B8_Group]  val loss=0.4965 acc=0.8755 macro_f1=0.8788 weighted_f1=0.8770
+12:46:41  INFO      [train_B8_Group]  lr=1.00e-05
+12:46:41  INFO      [train_B8_Group]  Curves : results/B8_Group/figures/training_curves.png
+12:46:42  INFO      [train_B8_Group]  Saved checkpoint: checkpoints/B8_Group/epoch_15_acc_0.8755.pth
+12:46:42  INFO      [train_B8_Group]  Saved last checkpoint: checkpoints/B8_Group/last.pth
+12:46:42  INFO      [train_B8_Group]  Removed old checkpoint: checkpoints/B8_Group/epoch_15_acc_0.8755.pth
+12:46:42  INFO      [train_B8_Group]  ── Epoch [16/60] ───────────────
+13:02:34  INFO      [train_B8_Group]  train loss=0.1140 acc=0.9661 macro_f1=0.9660 weighted_f1=0.9661
+13:02:34  INFO      [train_B8_Group]  val loss=0.4521 acc=0.8904 macro_f1=0.8945 weighted_f1=0.8909
+13:02:34  INFO      [train_B8_Group]  lr=1.00e-05
+13:02:35  INFO      [train_B8_Group]  Curves : results/B8_Group/figures/training_curves.png
+13:02:35  INFO      [train_B8_Group]  Saved checkpoint: checkpoints/B8_Group/epoch_16_acc_0.8904.pth
+13:02:36  INFO      [train_B8_Group]  Saved last checkpoint: checkpoints/B8_Group/last.pth
+13:02:36  INFO      [train_B8_Group]  Removed old checkpoint: checkpoints/B8_Group/epoch_07_acc_0.8896.pth
+13:02:36  INFO      [train_B8_Group]  ── Epoch [17/60] ───────────────
+13:18:32  INFO      [train_B8_Group]  train loss=0.1220 acc=0.9693 macro_f1=0.9706 weighted_f1=0.9693
+13:18:32  INFO      [train_B8_Group]  val loss=0.4666 acc=0.8874 macro_f1=0.8910 weighted_f1=0.8880
+13:18:32  INFO      [train_B8_Group]  lr=1.00e-05
+13:18:32  INFO      [train_B8_Group]  Curves : results/B8_Group/figures/training_curves.png
+13:18:33  INFO      [train_B8_Group]  Saved checkpoint: checkpoints/B8_Group/epoch_17_acc_0.8874.pth
+13:18:33  INFO      [train_B8_Group]  Saved last checkpoint: checkpoints/B8_Group/last.pth
+13:18:33  INFO      [train_B8_Group]  Removed old checkpoint: checkpoints/B8_Group/epoch_17_acc_0.8874.pth
+13:18:33  INFO      [train_B8_Group]  ── Epoch [18/60] ───────────────
+13:34:32  INFO      [train_B8_Group]  train loss=0.1457 acc=0.9628 macro_f1=0.9646 weighted_f1=0.9629
+13:34:32  INFO      [train_B8_Group]  val loss=0.4816 acc=0.8867 macro_f1=0.8891 weighted_f1=0.8874
+13:34:32  INFO      [train_B8_Group]  lr=1.00e-05
+13:34:33  INFO      [train_B8_Group]  Curves : results/B8_Group/figures/training_curves.png
+13:34:34  INFO      [train_B8_Group]  Saved checkpoint: checkpoints/B8_Group/epoch_18_acc_0.8867.pth
+13:34:34  INFO      [train_B8_Group]  Saved last checkpoint: checkpoints/B8_Group/last.pth
+13:34:34  INFO      [train_B8_Group]  Removed old checkpoint: checkpoints/B8_Group/epoch_18_acc_0.8867.pth
+13:34:34  INFO      [train_B8_Group]  ── Epoch [19/60] ───────────────
+13:50:34  INFO      [train_B8_Group]  train loss=0.1215 acc=0.9689 macro_f1=0.9693 weighted_f1=0.9689
+13:50:34  INFO      [train_B8_Group]  val loss=0.4824 acc=0.8784 macro_f1=0.8799 weighted_f1=0.8786
+13:50:34  INFO      [train_B8_Group]  lr=1.00e-06
+13:50:34  INFO      [train_B8_Group]  Curves : results/B8_Group/figures/training_curves.png
+13:50:34  INFO      [train_B8_Group]  Saved checkpoint: checkpoints/B8_Group/epoch_19_acc_0.8784.pth
+13:50:35  INFO      [train_B8_Group]  Saved last checkpoint: checkpoints/B8_Group/last.pth
+13:50:35  INFO      [train_B8_Group]  Removed old checkpoint: checkpoints/B8_Group/epoch_19_acc_0.8784.pth
+13:50:35  INFO      [train_B8_Group]  ── Epoch [20/60] ───────────────
+14:06:11  INFO      [train_B8_Group]  train loss=0.0950 acc=0.9726 macro_f1=0.9733 weighted_f1=0.9726
+14:06:11  INFO      [train_B8_Group]  val loss=0.4898 acc=0.8814 macro_f1=0.8848 weighted_f1=0.8820
+14:06:11  INFO      [train_B8_Group]  lr=1.00e-06
+14:06:11  INFO      [train_B8_Group]  Curves : results/B8_Group/figures/training_curves.png
+14:06:12  INFO      [train_B8_Group]  Saved checkpoint: checkpoints/B8_Group/epoch_20_acc_0.8814.pth
+14:06:12  INFO      [train_B8_Group]  Saved last checkpoint: checkpoints/B8_Group/last.pth
+14:06:12  INFO      [train_B8_Group]  Removed old checkpoint: checkpoints/B8_Group/epoch_20_acc_0.8814.pth
+14:06:12  INFO      [train_B8_Group]  ── Epoch [21/60] ───────────────
+14:21:37  INFO      [train_B8_Group]  train loss=0.1174 acc=0.9675 macro_f1=0.9686 weighted_f1=0.9675
+14:21:37  INFO      [train_B8_Group]  val loss=0.5110 acc=0.8665 macro_f1=0.8696 weighted_f1=0.8674
+14:21:37  INFO      [train_B8_Group]  lr=1.00e-06
+14:21:37  INFO      [train_B8_Group]  Curves : results/B8_Group/figures/training_curves.png
+14:21:38  INFO      [train_B8_Group]  Saved checkpoint: checkpoints/B8_Group/epoch_21_acc_0.8665.pth
+14:21:38  INFO      [train_B8_Group]  Saved last checkpoint: checkpoints/B8_Group/last.pth
+14:21:38  INFO      [train_B8_Group]  Removed old checkpoint: checkpoints/B8_Group/epoch_21_acc_0.8665.pth
+14:21:38  INFO      [train_B8_Group]  ── Epoch [22/60] ───────────────
+14:37:07  INFO      [train_B8_Group]  train loss=0.0927 acc=0.9707 macro_f1=0.9706 weighted_f1=0.9707
+14:37:07  INFO      [train_B8_Group]  val loss=0.4781 acc=0.8762 macro_f1=0.8781 weighted_f1=0.8766
+14:37:07  INFO      [train_B8_Group]  lr=1.00e-06
+14:37:07  INFO      [train_B8_Group]  Curves : results/B8_Group/figures/training_curves.png
+14:37:08  INFO      [train_B8_Group]  Saved checkpoint: checkpoints/B8_Group/epoch_22_acc_0.8762.pth
+14:37:08  INFO      [train_B8_Group]  Saved last checkpoint: checkpoints/B8_Group/last.pth
+14:37:08  INFO      [train_B8_Group]  Removed old checkpoint: checkpoints/B8_Group/epoch_22_acc_0.8762.pth
+14:37:08  INFO      [train_B8_Group]  ── Epoch [23/60] ───────────────
+14:52:52  INFO      [train_B8_Group]  train loss=0.1250 acc=0.9656 macro_f1=0.9658 weighted_f1=0.9656
+14:52:52  INFO      [train_B8_Group]  val loss=0.4621 acc=0.8896 macro_f1=0.8919 weighted_f1=0.8904
+14:52:52  INFO      [train_B8_Group]  lr=1.00e-06
+14:52:52  INFO      [train_B8_Group]  Curves : results/B8_Group/figures/training_curves.png
+14:52:53  INFO      [train_B8_Group]  Saved checkpoint: checkpoints/B8_Group/epoch_23_acc_0.8896.pth
+14:52:53  INFO      [train_B8_Group]  Saved last checkpoint: checkpoints/B8_Group/last.pth
+14:52:53  INFO      [train_B8_Group]  Removed old checkpoint: checkpoints/B8_Group/epoch_23_acc_0.8896.pth
+14:52:53  INFO      [train_B8_Group]  ── Epoch [24/60] ───────────────
+15:09:53  INFO      [train_B8_Group]  train loss=0.1090 acc=0.9679 macro_f1=0.9685 weighted_f1=0.9679
+15:09:53  INFO      [train_B8_Group]  val loss=0.4731 acc=0.8829 macro_f1=0.8851 weighted_f1=0.8834
+15:09:53  INFO      [train_B8_Group]  lr=1.00e-06
+15:09:53  INFO      [train_B8_Group]  Curves : results/B8_Group/figures/training_curves.png
+15:09:54  INFO      [train_B8_Group]  Saved checkpoint: checkpoints/B8_Group/epoch_24_acc_0.8829.pth
+15:09:54  INFO      [train_B8_Group]  Saved last checkpoint: checkpoints/B8_Group/last.pth
+15:09:54  INFO      [train_B8_Group]  Removed old checkpoint: checkpoints/B8_Group/epoch_24_acc_0.8829.pth
+15:09:54  INFO      [train_B8_Group]  ── Epoch [25/60] ───────────────
+15:25:53  INFO      [train_B8_Group]  train loss=0.0952 acc=0.9703 macro_f1=0.9709 weighted_f1=0.9703
+15:25:53  INFO      [train_B8_Group]  val loss=0.5308 acc=0.8725 macro_f1=0.8773 weighted_f1=0.8731
+15:25:53  INFO      [train_B8_Group]  lr=1.00e-06
+15:25:54  INFO      [train_B8_Group]  Curves : results/B8_Group/figures/training_curves.png
+15:25:55  INFO      [train_B8_Group]  Saved checkpoint: checkpoints/B8_Group/epoch_25_acc_0.8725.pth
+15:25:55  INFO      [train_B8_Group]  Saved last checkpoint: checkpoints/B8_Group/last.pth
+15:25:55  INFO      [train_B8_Group]  Removed old checkpoint: checkpoints/B8_Group/epoch_25_acc_0.8725.pth
+15:25:55  INFO      [train_B8_Group]  ── Epoch [26/60] ───────────────
+15:41:44  INFO      [train_B8_Group]  train loss=0.1064 acc=0.9684 macro_f1=0.9688 weighted_f1=0.9684
+15:41:44  INFO      [train_B8_Group]  val loss=0.4755 acc=0.8837 macro_f1=0.8861 weighted_f1=0.8844
+15:41:44  INFO      [train_B8_Group]  lr=1.00e-06
+15:41:45  INFO      [train_B8_Group]  Curves : results/B8_Group/figures/training_curves.png
+15:41:45  INFO      [train_B8_Group]  Saved checkpoint: checkpoints/B8_Group/epoch_26_acc_0.8837.pth
+15:41:46  INFO      [train_B8_Group]  Saved last checkpoint: checkpoints/B8_Group/last.pth
+15:41:46  INFO      [train_B8_Group]  Removed old checkpoint: checkpoints/B8_Group/epoch_26_acc_0.8837.pth
+15:41:46  INFO      [train_B8_Group]  ── Epoch [27/60] ───────────────
+15:57:07  INFO      [train_B8_Group]  train loss=0.1351 acc=0.9656 macro_f1=0.9665 weighted_f1=0.9656
+15:57:07  INFO      [train_B8_Group]  val loss=0.5008 acc=0.8784 macro_f1=0.8778 weighted_f1=0.8790
+15:57:07  INFO      [train_B8_Group]  lr=1.00e-06
+15:57:07  INFO      [train_B8_Group]  Curves : results/B8_Group/figures/training_curves.png
+15:57:08  INFO      [train_B8_Group]  Saved checkpoint: checkpoints/B8_Group/epoch_27_acc_0.8784.pth
+15:57:08  INFO      [train_B8_Group]  Saved last checkpoint: checkpoints/B8_Group/last.pth
+15:57:08  INFO      [train_B8_Group]  Removed old checkpoint: checkpoints/B8_Group/epoch_27_acc_0.8784.pth
+15:57:08  INFO      [train_B8_Group]  ── Epoch [28/60] ───────────────
+16:12:44  INFO      [train_B8_Group]  train loss=0.1212 acc=0.9619 macro_f1=0.9627 weighted_f1=0.9619
+16:12:44  INFO      [train_B8_Group]  val loss=0.4888 acc=0.8792 macro_f1=0.8819 weighted_f1=0.8793
+16:12:44  INFO      [train_B8_Group]  lr=1.00e-06
+16:12:44  INFO      [train_B8_Group]  Curves : results/B8_Group/figures/training_curves.png
+16:12:45  INFO      [train_B8_Group]  Saved checkpoint: checkpoints/B8_Group/epoch_28_acc_0.8792.pth
+16:12:45  INFO      [train_B8_Group]  Saved last checkpoint: checkpoints/B8_Group/last.pth
+16:12:45  INFO      [train_B8_Group]  Removed old checkpoint: checkpoints/B8_Group/epoch_28_acc_0.8792.pth
+16:12:45  INFO      [train_B8_Group]  ── Epoch [29/60] ───────────────
+16:28:14  INFO      [train_B8_Group]  train loss=0.1136 acc=0.9684 macro_f1=0.9684 weighted_f1=0.9684
+16:28:14  INFO      [train_B8_Group]  val loss=0.4563 acc=0.8874 macro_f1=0.8914 weighted_f1=0.8880
+16:28:14  INFO      [train_B8_Group]  lr=1.00e-06
+16:28:14  INFO      [train_B8_Group]  Curves : results/B8_Group/figures/training_curves.png
+16:28:15  INFO      [train_B8_Group]  Saved checkpoint: checkpoints/B8_Group/epoch_29_acc_0.8874.pth
+16:28:15  INFO      [train_B8_Group]  Saved last checkpoint: checkpoints/B8_Group/last.pth
+16:28:15  INFO      [train_B8_Group]  Removed old checkpoint: checkpoints/B8_Group/epoch_29_acc_0.8874.pth
+16:28:15  INFO      [train_B8_Group]  ── Epoch [30/60] ───────────────
+16:43:55  INFO      [train_B8_Group]  train loss=0.1062 acc=0.9703 macro_f1=0.9713 weighted_f1=0.9702
+16:43:55  INFO      [train_B8_Group]  val loss=0.4651 acc=0.8926 macro_f1=0.8954 weighted_f1=0.8934
+16:43:55  INFO      [train_B8_Group]  lr=1.00e-06
+16:43:56  INFO      [train_B8_Group]  Curves : results/B8_Group/figures/training_curves.png
+16:43:56  INFO      [train_B8_Group]  Saved checkpoint: checkpoints/B8_Group/epoch_30_acc_0.8926.pth
+16:43:57  INFO      [train_B8_Group]  Saved last checkpoint: checkpoints/B8_Group/last.pth
+16:43:57  INFO      [train_B8_Group]  Removed old checkpoint: checkpoints/B8_Group/epoch_16_acc_0.8904.pth
+16:43:57  INFO      [train_B8_Group]  ── Epoch [31/60] ───────────────
+16:59:30  INFO      [train_B8_Group]  train loss=0.1413 acc=0.9619 macro_f1=0.9617 weighted_f1=0.9620
+16:59:30  INFO      [train_B8_Group]  val loss=0.4881 acc=0.8807 macro_f1=0.8846 weighted_f1=0.8811
+16:59:30  INFO      [train_B8_Group]  lr=1.00e-06
+16:59:30  INFO      [train_B8_Group]  Curves : results/B8_Group/figures/training_curves.png
+16:59:31  INFO      [train_B8_Group]  Saved checkpoint: checkpoints/B8_Group/epoch_31_acc_0.8807.pth
+16:59:31  INFO      [train_B8_Group]  Saved last checkpoint: checkpoints/B8_Group/last.pth
+16:59:31  INFO      [train_B8_Group]  Removed old checkpoint: checkpoints/B8_Group/epoch_31_acc_0.8807.pth
+16:59:31  INFO      [train_B8_Group]  ── Epoch [32/60] ───────────────
+17:15:16  INFO      [train_B8_Group]  train loss=0.0976 acc=0.9730 macro_f1=0.9747 weighted_f1=0.9730
+17:15:16  INFO      [train_B8_Group]  val loss=0.4859 acc=0.8844 macro_f1=0.8882 weighted_f1=0.8846
+17:15:16  INFO      [train_B8_Group]  lr=1.00e-06
+17:15:16  INFO      [train_B8_Group]  Curves : results/B8_Group/figures/training_curves.png
+17:15:17  INFO      [train_B8_Group]  Saved checkpoint: checkpoints/B8_Group/epoch_32_acc_0.8844.pth
+17:15:17  INFO      [train_B8_Group]  Saved last checkpoint: checkpoints/B8_Group/last.pth
+17:15:17  INFO      [train_B8_Group]  Removed old checkpoint: checkpoints/B8_Group/epoch_32_acc_0.8844.pth
+17:15:17  INFO      [train_B8_Group]  ── Epoch [33/60] ───────────────
+17:30:59  INFO      [train_B8_Group]  train loss=0.1038 acc=0.9754 macro_f1=0.9766 weighted_f1=0.9754
+17:31:00  INFO      [train_B8_Group]  val loss=0.4717 acc=0.8814 macro_f1=0.8842 weighted_f1=0.8822
+17:31:00  INFO      [train_B8_Group]  lr=1.00e-06
+17:31:01  INFO      [train_B8_Group]  Curves : results/B8_Group/figures/training_curves.png
+17:31:01  INFO      [train_B8_Group]  Saved checkpoint: checkpoints/B8_Group/epoch_33_acc_0.8814.pth
+17:31:02  INFO      [train_B8_Group]  Saved last checkpoint: checkpoints/B8_Group/last.pth
+17:31:02  INFO      [train_B8_Group]  Removed old checkpoint: checkpoints/B8_Group/epoch_33_acc_0.8814.pth
+17:31:02  INFO      [train_B8_Group]  ── Epoch [34/60] ───────────────
+17:47:08  INFO      [train_B8_Group]  train loss=0.0985 acc=0.9665 macro_f1=0.9681 weighted_f1=0.9665
+17:47:08  INFO      [train_B8_Group]  val loss=0.4959 acc=0.8792 macro_f1=0.8808 weighted_f1=0.8800
+17:47:08  INFO      [train_B8_Group]  lr=1.00e-06
+17:47:08  INFO      [train_B8_Group]  Curves : results/B8_Group/figures/training_curves.png
+17:47:09  INFO      [train_B8_Group]  Saved checkpoint: checkpoints/B8_Group/epoch_34_acc_0.8792.pth
+17:47:09  INFO      [train_B8_Group]  Saved last checkpoint: checkpoints/B8_Group/last.pth
+17:47:09  INFO      [train_B8_Group]  Removed old checkpoint: checkpoints/B8_Group/epoch_34_acc_0.8792.pth
+17:47:09  INFO      [train_B8_Group]  ── Epoch [35/60] ───────────────
+18:03:22  INFO      [train_B8_Group]  train loss=0.0931 acc=0.9712 macro_f1=0.9705 weighted_f1=0.9712
+18:03:22  INFO      [train_B8_Group]  val loss=0.4623 acc=0.8919 macro_f1=0.8949 weighted_f1=0.8922
+18:03:22  INFO      [train_B8_Group]  lr=1.00e-06
+18:03:22  INFO      [train_B8_Group]  Curves : results/B8_Group/figures/training_curves.png
+18:03:23  INFO      [train_B8_Group]  Saved checkpoint: checkpoints/B8_Group/epoch_35_acc_0.8919.pth
+18:03:23  INFO      [train_B8_Group]  Saved last checkpoint: checkpoints/B8_Group/last.pth
+18:03:23  INFO      [train_B8_Group]  Removed old checkpoint: checkpoints/B8_Group/epoch_35_acc_0.8919.pth
+18:03:23  INFO      [train_B8_Group]  ── Epoch [36/60] ───────────────
+18:19:19  INFO      [train_B8_Group]  train loss=0.1023 acc=0.9665 macro_f1=0.9680 weighted_f1=0.9666
+18:19:19  INFO      [train_B8_Group]  val loss=0.5129 acc=0.8717 macro_f1=0.8748 weighted_f1=0.8715
+18:19:19  INFO      [train_B8_Group]  lr=1.00e-06
+18:19:20  INFO      [train_B8_Group]  Curves : results/B8_Group/figures/training_curves.png
+18:19:20  INFO      [train_B8_Group]  Saved checkpoint: checkpoints/B8_Group/epoch_36_acc_0.8717.pth
+18:19:21  INFO      [train_B8_Group]  Saved last checkpoint: checkpoints/B8_Group/last.pth
+18:19:21  INFO      [train_B8_Group]  Removed old checkpoint: checkpoints/B8_Group/epoch_36_acc_0.8717.pth
+18:19:21  INFO      [train_B8_Group]  ── Epoch [37/60] ───────────────
+18:35:18  INFO      [train_B8_Group]  train loss=0.0910 acc=0.9703 macro_f1=0.9693 weighted_f1=0.9703
+18:35:18  INFO      [train_B8_Group]  val loss=0.5012 acc=0.8747 macro_f1=0.8783 weighted_f1=0.8749
+18:35:18  INFO      [train_B8_Group]  lr=1.00e-06
+18:35:18  INFO      [train_B8_Group]  Curves : results/B8_Group/figures/training_curves.png
+18:35:19  INFO      [train_B8_Group]  Saved checkpoint: checkpoints/B8_Group/epoch_37_acc_0.8747.pth
+18:35:19  INFO      [train_B8_Group]  Saved last checkpoint: checkpoints/B8_Group/last.pth
+18:35:19  INFO      [train_B8_Group]  Removed old checkpoint: checkpoints/B8_Group/epoch_37_acc_0.8747.pth
+18:35:19  INFO      [train_B8_Group]  ── Epoch [38/60] ───────────────
+18:51:03  INFO      [train_B8_Group]  train loss=0.0973 acc=0.9721 macro_f1=0.9743 weighted_f1=0.9721
+18:51:03  INFO      [train_B8_Group]  val loss=0.4747 acc=0.8874 macro_f1=0.8894 weighted_f1=0.8877
+18:51:03  INFO      [train_B8_Group]  lr=1.00e-06
+18:51:04  INFO      [train_B8_Group]  Curves : results/B8_Group/figures/training_curves.png
+18:51:04  INFO      [train_B8_Group]  Saved checkpoint: checkpoints/B8_Group/epoch_38_acc_0.8874.pth
+18:51:05  INFO      [train_B8_Group]  Saved last checkpoint: checkpoints/B8_Group/last.pth
+18:51:05  INFO      [train_B8_Group]  Removed old checkpoint: checkpoints/B8_Group/epoch_38_acc_0.8874.pth
+18:51:05  INFO      [train_B8_Group]  ── Epoch [39/60] ───────────────
+19:07:13  INFO      [train_B8_Group]  train loss=0.1421 acc=0.9614 macro_f1=0.9614 weighted_f1=0.9614
+19:07:13  INFO      [train_B8_Group]  val loss=0.5226 acc=0.8747 macro_f1=0.8775 weighted_f1=0.8757
+19:07:13  INFO      [train_B8_Group]  lr=1.00e-06
+19:07:14  INFO      [train_B8_Group]  Curves : results/B8_Group/figures/training_curves.png
+19:07:14  INFO      [train_B8_Group]  Saved checkpoint: checkpoints/B8_Group/epoch_39_acc_0.8747.pth
+19:07:15  INFO      [train_B8_Group]  Saved last checkpoint: checkpoints/B8_Group/last.pth
+19:07:15  INFO      [train_B8_Group]  Removed old checkpoint: checkpoints/B8_Group/epoch_39_acc_0.8747.pth
+19:07:15  INFO      [train_B8_Group]  ── Epoch [40/60] ───────────────
+19:23:14  INFO      [train_B8_Group]  train loss=0.1126 acc=0.9679 macro_f1=0.9679 weighted_f1=0.9679
+19:23:14  INFO      [train_B8_Group]  val loss=0.5236 acc=0.8755 macro_f1=0.8811 weighted_f1=0.8767
+19:23:14  INFO      [train_B8_Group]  lr=1.00e-06
+19:23:14  INFO      [train_B8_Group]  Curves : results/B8_Group/figures/training_curves.png
+19:23:15  INFO      [train_B8_Group]  Saved checkpoint: checkpoints/B8_Group/epoch_40_acc_0.8755.pth
+19:23:15  INFO      [train_B8_Group]  Saved last checkpoint: checkpoints/B8_Group/last.pth
+19:23:16  INFO      [train_B8_Group]  Removed old checkpoint: checkpoints/B8_Group/epoch_40_acc_0.8755.pth
+19:23:16  INFO      [train_B8_Group]  ── Epoch [41/60] ───────────────
+19:39:14  INFO      [train_B8_Group]  train loss=0.1225 acc=0.9628 macro_f1=0.9613 weighted_f1=0.9628
+19:39:14  INFO      [train_B8_Group]  val loss=0.4875 acc=0.8867 macro_f1=0.8889 weighted_f1=0.8873
+19:39:14  INFO      [train_B8_Group]  lr=1.00e-06
+19:39:15  INFO      [train_B8_Group]  Curves : results/B8_Group/figures/training_curves.png
+19:39:15  INFO      [train_B8_Group]  Saved checkpoint: checkpoints/B8_Group/epoch_41_acc_0.8867.pth
+19:39:16  INFO      [train_B8_Group]  Saved last checkpoint: checkpoints/B8_Group/last.pth
+19:39:16  INFO      [train_B8_Group]  Removed old checkpoint: checkpoints/B8_Group/epoch_41_acc_0.8867.pth
+19:39:16  INFO      [train_B8_Group]  ── Epoch [42/60] ───────────────
+19:55:26  INFO      [train_B8_Group]  train loss=0.1054 acc=0.9717 macro_f1=0.9719 weighted_f1=0.9716
+19:55:26  INFO      [train_B8_Group]  val loss=0.4809 acc=0.8784 macro_f1=0.8811 weighted_f1=0.8792
+19:55:26  INFO      [train_B8_Group]  lr=1.00e-06
+19:55:26  INFO      [train_B8_Group]  Curves : results/B8_Group/figures/training_curves.png
+19:55:27  INFO      [train_B8_Group]  Saved checkpoint: checkpoints/B8_Group/epoch_42_acc_0.8784.pth
+19:55:27  INFO      [train_B8_Group]  Saved last checkpoint: checkpoints/B8_Group/last.pth
+19:55:27  INFO      [train_B8_Group]  Removed old checkpoint: checkpoints/B8_Group/epoch_42_acc_0.8784.pth
+19:55:27  INFO      [train_B8_Group]  ── Epoch [43/60] ───────────────
+20:11:19  INFO      [train_B8_Group]  train loss=0.0911 acc=0.9698 macro_f1=0.9717 weighted_f1=0.9698
+20:11:19  INFO      [train_B8_Group]  val loss=0.5137 acc=0.8613 macro_f1=0.8674 weighted_f1=0.8623
+20:11:19  INFO      [train_B8_Group]  lr=1.00e-06
+20:11:19  INFO      [train_B8_Group]  Curves : results/B8_Group/figures/training_curves.png
+20:11:20  INFO      [train_B8_Group]  Saved checkpoint: checkpoints/B8_Group/epoch_43_acc_0.8613.pth
+20:11:20  INFO      [train_B8_Group]  Saved last checkpoint: checkpoints/B8_Group/last.pth
+20:11:21  INFO      [train_B8_Group]  Removed old checkpoint: checkpoints/B8_Group/epoch_43_acc_0.8613.pth
+20:11:21  INFO      [train_B8_Group]  ── Epoch [44/60] ───────────────
+20:27:33  INFO      [train_B8_Group]  train loss=0.1146 acc=0.9740 macro_f1=0.9759 weighted_f1=0.9740
+20:27:33  INFO      [train_B8_Group]  val loss=0.4972 acc=0.8792 macro_f1=0.8823 weighted_f1=0.8804
+20:27:33  INFO      [train_B8_Group]  lr=1.00e-06
+20:27:33  INFO      [train_B8_Group]  Curves : results/B8_Group/figures/training_curves.png
+20:27:34  INFO      [train_B8_Group]  Saved checkpoint: checkpoints/B8_Group/epoch_44_acc_0.8792.pth
+20:27:34  INFO      [train_B8_Group]  Saved last checkpoint: checkpoints/B8_Group/last.pth
+20:27:34  INFO      [train_B8_Group]  Removed old checkpoint: checkpoints/B8_Group/epoch_44_acc_0.8792.pth
+20:27:34  INFO      [train_B8_Group]  ── Epoch [45/60] ───────────────
+20:43:28  INFO      [train_B8_Group]  train loss=0.1146 acc=0.9684 macro_f1=0.9692 weighted_f1=0.9684
+20:43:28  INFO      [train_B8_Group]  val loss=0.4944 acc=0.8822 macro_f1=0.8858 weighted_f1=0.8822
+20:43:28  INFO      [train_B8_Group]  lr=1.00e-06
+20:43:29  INFO      [train_B8_Group]  Curves : results/B8_Group/figures/training_curves.png
+20:43:29  INFO      [train_B8_Group]  Saved checkpoint: checkpoints/B8_Group/epoch_45_acc_0.8822.pth
+20:43:30  INFO      [train_B8_Group]  Saved last checkpoint: checkpoints/B8_Group/last.pth
+20:43:30  INFO      [train_B8_Group]  Removed old checkpoint: checkpoints/B8_Group/epoch_45_acc_0.8822.pth
+20:43:30  INFO      [train_B8_Group]  ── Epoch [46/60] ───────────────
