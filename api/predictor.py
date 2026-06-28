@@ -19,7 +19,7 @@ _frame_transform = T.Compose([
 WINDOW_SIZE = 9
 NUM_PERSONS = 12
 YOLO_CONF = 0.35
-FRAME_STRIDE = 1
+FRAME_STRIDE = 4
 
 GROUP_LABELS = {
     0: "l-pass", 1: "r-pass", 2: "l-spike", 3: "r-spike",
