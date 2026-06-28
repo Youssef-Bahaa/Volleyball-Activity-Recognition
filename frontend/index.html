@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Volleyball Activity Recognizer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #080c10;
+  --surface: #0f1620;
+  --card: #141e2b;
+  --border: #1e2e40;
+  --border-hi: #2a4060;
+  --left: #3b8eff;
+  --right: #ff5e3b;
+  --neutral: #f0c040;
+  --green: #30d990;
+  --muted: #4a6480;
+  --text: #d8e8f8;
+  --text-dim: #7a98b8;
+  --font-ui: 'Space Grotesk', system-ui, sans-serif;
+  --font-mono: 'Space Mono', monospace;
+  --r: 8px;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-ui);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 14px 56px;
+  gap: 14px;
+}
+
+header {
+  width: 100%;
+  max-width: 1000px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.logo-mark {
+  width: 38px;
+  height: 38px;
+  border-radius: 9px;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, var(--left) 0%, #0040b0 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -.5px;
+}
+
+.header-text h1 {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -.2px;
+  line-height: 1;
+}
+
+.header-text p {
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 2px;
+  font-family: var(--font-mono);
+}
+
+.ws-status {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--muted);
+}
+
+.ws-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--muted);
+  flex-shrink: 0;
+  transition: background .3s;
+}
+
+.ws-dot.ok { background: var(--green); box-shadow: 0 0 6px var(--green); }
+.ws-dot.err { background: var(--right); }
+
+.ws-row {
+  width: 100%;
+  max-width: 1000px;
+  display: flex;
+  gap: 8px;
+}
+
+.ws-row input {
+  flex: 1;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 8px 12px;
+  color: var(--text);
+  font-size: 12px;
+  font-family: var(--font-mono);
+  outline: none;
+  transition: border-color .2s;
+}
+
+.ws-row input:focus { border-color: var(--left); }
+
+.btn {
+  padding: 8px 16px;
+  border-radius: var(--r);
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--font-ui);
+  cursor: pointer;
+  transition: opacity .15s, transform .1s;
+  white-space: nowrap;
+}
+
+.btn:active { transform: scale(.97); }
+.btn:disabled { opacity: .3; cursor: not-allowed; }
+.btn-blue { background: var(--left); color: #fff; }
+.btn-ghost { background: var(--card); color: var(--text); border: 1px solid var(--border); }
+.btn-red { background: #1e0a08; color: var(--right); border: 1px solid var(--right); }
+input[type="file"] { display: none; }
+
+.layout {
+  width: 100%;
+  max-width: 1000px;
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  grid-template-rows: auto auto;
+  gap: 12px;
+}
+
+@media (max-width: 720px) { .layout { grid-template-columns: 1fr; } }
+
+.canvas-card {
+  grid-row: 1 / 3;
+  background: #000;
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  overflow: hidden;
+  position: relative;
+  aspect-ratio: 16/9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#canvas { width: 100%; height: 100%; display: block; object-fit: contain; }
+
+#overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(8,12,16,.92);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  transition: opacity .3s;
+}
+
+#overlay.hidden { opacity: 0; pointer-events: none; }
+
+#overlay-msg {
+  font-size: 13px;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+}
+
+.collect-track {
+  width: 180px;
+  height: 2px;
+  background: var(--border);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+#collect-fill {
+  height: 100%;
+  background: var(--left);
+  border-radius: 99px;
+  width: 0%;
+  transition: width .12s;
+}
+
+.activity-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 16px;
+}
+
+.card-eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 12px;
+  font-family: var(--font-mono);
+}
+
+.activity-display {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.team-badge {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  flex-shrink: 0;
+}
+
+.team-badge.left { background: rgba(59,142,255,.15); color: var(--left); border: 1px solid rgba(59,142,255,.3); }
+.team-badge.right { background: rgba(255,94,59,.15); color: var(--right); border: 1px solid rgba(255,94,59,.3); }
+.team-badge.win { background: rgba(240,192,64,.15); color: var(--neutral); border: 1px solid rgba(240,192,64,.3); }
+.team-badge.none { background: var(--surface); color: var(--muted); border: 1px solid var(--border); }
+
+#activity-name {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -.4px;
+  line-height: 1;
+}
+
+#activity-type {
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 6px;
+  font-family: var(--font-mono);
+}
+
+.conf-row {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.conf-track {
+  flex: 1;
+  height: 3px;
+  background: var(--border);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+#conf-fill {
+  height: 100%;
+  border-radius: 99px;
+  width: 0%;
+  transition: width .2s, background .3s;
+  background: var(--left);
+}
+
+#conf-pct {
+  font-size: 12px;
+  font-family: var(--font-mono);
+  color: var(--text-dim);
+  width: 36px;
+  text-align: right;
+}
+
+.activities-grid {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+}
+
+.act-pill {
+  padding: 5px 8px;
+  border-radius: 5px;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--muted);
+  transition: all .2s;
+  text-align: center;
+}
+
+.act-pill.active-left { background: rgba(59,142,255,.12); color: var(--left); border-color: rgba(59,142,255,.4); font-weight: 700; }
+.act-pill.active-right { background: rgba(255,94,59,.12); color: var(--right); border-color: rgba(255,94,59,.4); font-weight: 700; }
+.act-pill.active-win { background: rgba(240,192,64,.12); color: var(--neutral); border-color: rgba(240,192,64,.4); font-weight: 700; }
+
+.stats-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 16px;
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+}
+
+.stat-row:last-child { border-bottom: none; }
+.stat-key { color: var(--text-dim); font-family: var(--font-mono); font-size: 11px; }
+.stat-val { font-weight: 600; font-family: var(--font-mono); font-size: 12px; }
+
+.controls {
+  width: 100%;
+  max-width: 1000px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.fps-group {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--muted);
+  font-family: var(--font-mono);
+}
+
+#fps-val { color: var(--text); font-weight: 700; }
+input[type="range"] { accent-color: var(--left); cursor: pointer; width: 80px; }
+
+.players-section { width: 100%; max-width: 1000px; }
+
+.section-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+.players-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 6px;
+}
+
+@media (max-width: 600px) { .players-grid { grid-template-columns: repeat(4, 1fr); } }
+
+.player-chip {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 4px;
+  text-align: center;
+  font-size: 10px;
+  font-family: var(--font-mono);
+  transition: border-color .2s, background .2s;
+}
+
+.player-chip.left-team { border-color: rgba(59,142,255,.3); }
+.player-chip.right-team { border-color: rgba(255,94,59,.3); }
+
+.player-num { font-size: 9px; color: var(--muted); display: block; margin-bottom: 3px; }
+.player-action { color: var(--text-dim); font-size: 10px; }
+.player-chip.left-team .player-action { color: var(--left); }
+.player-chip.right-team .player-action { color: var(--right); }
+
+.yolo-section { width: 100%; max-width: 1000px; }
+
+#det-list { display: flex; flex-wrap: wrap; gap: 5px; }
+
+.det-chip {
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+}
+
+.det-chip.person { border-color: rgba(59,142,255,.3); color: var(--left); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-mark">VAR</div>
+  <div class="header-text">
+    <h1>Volleyball Activity Recognizer</h1>
+    <p>B8_Group -- ResNet50 + Dual LSTM -- 8 activities / 12 players</p>
+  </div>
+  <div class="ws-status">
+    <div class="ws-dot" id="ws-dot"></div>
+    <span id="ws-label">disconnected</span>
+  </div>
+</header>
+
+<div class="ws-row">
+  <input id="ws-url" value="ws://localhost:8000/ws/predict" placeholder="WebSocket URL"/>
+  <button class="btn btn-ghost" onclick="connectWS()">Connect</button>
+</div>
+
+<div class="layout">
+  <div class="canvas-card">
+    <canvas id="canvas"></canvas>
+    <div id="overlay">
+      <div id="overlay-msg">upload a video to start</div>
+      <div class="collect-track"><div id="collect-fill"></div></div>
+    </div>
+  </div>
+
+  <div class="activity-card">
+    <div class="card-eyebrow">Group Activity</div>
+    <div class="activity-display">
+      <div class="team-badge none" id="team-badge">--</div>
+      <div id="activity-name">--</div>
+    </div>
+    <div id="activity-type" style="color:var(--muted)">waiting for frames...</div>
+    <div class="conf-row">
+      <div class="conf-track"><div id="conf-fill"></div></div>
+      <div id="conf-pct">--%</div>
+    </div>
+    <div class="activities-grid">
+      <div class="act-pill" id="pill-l-pass">l-pass</div>
+      <div class="act-pill" id="pill-r-pass">r-pass</div>
+      <div class="act-pill" id="pill-l-spike">l-spike</div>
+      <div class="act-pill" id="pill-r-spike">r-spike</div>
+      <div class="act-pill" id="pill-l-set">l-set</div>
+      <div class="act-pill" id="pill-r-set">r-set</div>
+      <div class="act-pill" id="pill-l-winpoint">l-win</div>
+      <div class="act-pill" id="pill-r-winpoint">r-win</div>
+    </div>
+  </div>
+
+  <div class="stats-card">
+    <div class="card-eyebrow">Inference Stats</div>
+    <div class="stat-row"><span class="stat-key">buffer</span><span class="stat-val" id="s-buf">0 / 9</span></div>
+    <div class="stat-row"><span class="stat-key">latency</span><span class="stat-val" id="s-ms">-- ms</span></div>
+    <div class="stat-row"><span class="stat-key">players</span><span class="stat-val" id="s-players">--</span></div>
+  </div>
+</div>
+
+<div class="controls">
+  <label class="btn btn-blue" for="file-in">Upload video</label>
+  <input type="file" id="file-in" accept="video/*" onchange="onFile(this)"/>
+  <button class="btn btn-ghost" id="play-btn" disabled onclick="togglePlay()">Play</button>
+  <button class="btn btn-red" onclick="resetAll()">Reset</button>
+  <div class="fps-group">
+    fps: <span id="fps-val">15</span>
+    <input type="range" id="fps-slider" min="1" max="30" value="15" oninput="setFps(+this.value)"/>
+  </div>
+</div>
+
+<div class="players-section">
+  <div class="section-label">Players (sorted L to R)</div>
+  <div class="players-grid" id="players-grid"></div>
+</div>
+
+<div class="yolo-section">
+  <div class="section-label">YOLO Detections</div>
+  <div id="det-list"><span style="font-size:11px;color:var(--muted);font-family:var(--font-mono)">none</span></div>
+</div>
+
+<video id="vid" style="display:none" playsinline></video>
+
+<script>
+const GROUP_LABELS = {
+  'l-pass':     { team: 'left',  display: 'Pass' },
+  'r-pass':     { team: 'right', display: 'Pass' },
+  'l-spike':    { team: 'left',  display: 'Spike' },
+  'r-spike':    { team: 'right', display: 'Spike' },
+  'l-set':      { team: 'left',  display: 'Set' },
+  'r-set':      { team: 'right', display: 'Set' },
+  'l-winpoint': { team: 'win',   display: 'Win Point' },
+  'r-winpoint': { team: 'win',   display: 'Win Point' },
+};
+
+const video = document.getElementById('vid');
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+let ws = null;
+let playing = false;
+let sendFps = 15;
+let frameTimer = null;
+let fpsTimer = null;
+let fpsCount = 0;
+let lastMsg = null;
+
+const grid = document.getElementById('players-grid');
+for (let i = 0; i < 12; i++) {
+  const cls = i < 6 ? 'left-team' : 'right-team';
+  const side = i < 6 ? 'L' : 'R';
+  grid.innerHTML += `<div class="player-chip ${cls}" id="player-${i}"><span class="player-num">${side}${i < 6 ? i + 1 : i - 5}</span><span class="player-action" id="pa-${i}">--</span></div>`;
+}
+
+function connectWS() {
+  const url = document.getElementById('ws-url').value.trim();
+  if (ws) ws.close();
+  ws = new WebSocket(url);
+  ws.binaryType = 'arraybuffer';
+  ws.onopen = () => setDot('ok', 'connected');
+  ws.onclose = () => setDot('', 'disconnected');
+  ws.onerror = () => setDot('err', 'error');
+  ws.onmessage = e => onMessage(JSON.parse(e.data));
+}
+
+function onMessage(msg) {
+  lastMsg = msg;
+  document.getElementById('s-ms').textContent = msg.ms + ' ms';
+
+  if (msg.status === 'collecting') {
+    const pct = Math.round(msg.buffer_size / msg.total * 100);
+    document.getElementById('collect-fill').style.width = pct + '%';
+    document.getElementById('overlay-msg').textContent = `collecting frames... ${msg.buffer_size} / ${msg.total}`;
+    document.getElementById('s-buf').textContent = `${msg.buffer_size} / ${msg.total}`;
+  }
+
+  if (msg.status === 'predicting') {
+    document.getElementById('overlay').classList.add('hidden');
+    document.getElementById('s-buf').textContent = `${msg.total} / ${msg.total}`;
+    if (msg.group_label) updateActivity(msg.group_label, msg.group_conf);
+    if (msg.persons && msg.persons.length) updatePersons(msg.persons);
+  }
+
+  if (msg.detections) {
+    const personCount = msg.detections.filter(d => d.label === 'person').length;
+    document.getElementById('s-players').textContent = personCount;
+    renderDets(msg.detections);
+  }
+
+  drawOverlays();
+}
+
+function updateActivity(label, conf) {
+  const info = GROUP_LABELS[label] || { team: 'none', display: label };
+  const pct = Math.round(conf * 100);
+
+  const badge = document.getElementById('team-badge');
+  badge.textContent = info.team === 'win' ? 'WIN' : info.team === 'left' ? 'LEFT' : 'RIGHT';
+  badge.className = `team-badge ${info.team}`;
+
+  document.getElementById('activity-name').textContent = info.display;
+  document.getElementById('activity-type').textContent = label;
+
+  const fill = document.getElementById('conf-fill');
+  fill.style.width = pct + '%';
+  fill.style.background = info.team === 'left' ? 'var(--left)' : info.team === 'right' ? 'var(--right)' : 'var(--neutral)';
+  document.getElementById('conf-pct').textContent = pct + '%';
+
+  document.querySelectorAll('.act-pill').forEach(p => p.classList.remove('active-left', 'active-right', 'active-win'));
+  const pill = document.getElementById('pill-' + label);
+  if (pill) pill.classList.add(info.team === 'win' ? 'active-win' : info.team === 'left' ? 'active-left' : 'active-right');
+}
+
+function updatePersons(persons) {
+  persons.forEach(p => {
+    const el = document.getElementById(`pa-${p.player_id}`);
+    if (el) el.textContent = p.action_label || '--';
+  });
+}
+
+function drawOverlays() {
+  if (!canvas.width || !lastMsg) return;
+
+  (lastMsg.detections || []).forEach(d => {
+    const [x1, y1, x2, y2] = d.box;
+    const isPlayer = d.label === 'person';
+    ctx.strokeStyle = isPlayer ? '#3b8eff' : '#ff5e3b';
+    ctx.lineWidth = isPlayer ? 2 : 1.5;
+    ctx.strokeRect(x1, y1, x2 - x1, y2 - y1);
+    const txt = `${d.label} ${Math.round(d.confidence * 100)}%`;
+    ctx.font = 'bold 11px "Space Mono", monospace';
+    const tw = ctx.measureText(txt).width + 8;
+    ctx.fillStyle = isPlayer ? 'rgba(59,142,255,.82)' : 'rgba(255,94,59,.82)';
+    ctx.fillRect(x1, y1 - 18, tw, 18);
+    ctx.fillStyle = '#fff';
+    ctx.fillText(txt, x1 + 4, y1 - 4);
+  });
+
+  if (lastMsg.group_label) {
+    const info = GROUP_LABELS[lastMsg.group_label] || {};
+    const pct = Math.round((lastMsg.group_conf || 0) * 100);
+    const color = info.team === 'left' ? 'rgba(59,142,255,.88)' : info.team === 'right' ? 'rgba(255,94,59,.88)' : 'rgba(240,192,64,.88)';
+    const txt = `${lastMsg.group_label}  ${pct}%`;
+    ctx.font = 'bold 13px "Space Mono", monospace';
+    const tw = ctx.measureText(txt).width + 16;
+    ctx.fillStyle = color;
+    ctx.fillRect(8, canvas.height - 30, tw, 22);
+    ctx.fillStyle = '#fff';
+    ctx.fillText(txt, 16, canvas.height - 13);
+  }
+}
+
+function renderDets(dets) {
+  const el = document.getElementById('det-list');
+  if (!dets.length) {
+    el.innerHTML = '<span style="font-size:11px;color:var(--muted);font-family:var(--font-mono)">none</span>';
+    return;
+  }
+  el.innerHTML = dets.map(d => `<span class="det-chip ${d.label === 'person' ? 'person' : ''}">${d.label} ${Math.round(d.confidence * 100)}%</span>`).join('');
+}
+
+function startSending() {
+  stopSending();
+  frameTimer = setInterval(sendFrame, 1000 / sendFps);
+  fpsTimer = setInterval(() => { fpsCount = 0; }, 1000);
+}
+
+function stopSending() {
+  clearInterval(frameTimer);
+  clearInterval(fpsTimer);
+  frameTimer = fpsTimer = null;
+}
+
+function sendFrame() {
+  if (!ws || ws.readyState !== WebSocket.OPEN || video.paused || video.ended) return;
+  canvas.width = video.videoWidth || 640;
+  canvas.height = video.videoHeight || 360;
+  ctx.drawImage(video, 0, 0);
+  drawOverlays();
+  canvas.toBlob(blob => {
+    if (!blob || !ws || ws.readyState !== WebSocket.OPEN) return;
+    blob.arrayBuffer().then(buf => { ws.send(buf); fpsCount++; });
+  }, 'image/jpeg', 0.82);
+}
+
+function onFile(inp) {
+  const file = inp.files[0];
+  if (!file) return;
+  video.src = URL.createObjectURL(file);
+  video.load();
+  video.onloadedmetadata = () => {
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    document.getElementById('play-btn').disabled = false;
+  };
+  video.onended = () => {
+    playing = false;
+    document.getElementById('play-btn').textContent = 'Play';
+    stopSending();
+  };
+}
+
+function togglePlay() {
+  if (!ws || ws.readyState !== WebSocket.OPEN) { alert('Connect to WebSocket first.'); return; }
+  if (playing) {
+    video.pause();
+    stopSending();
+    playing = false;
+    document.getElementById('play-btn').textContent = 'Play';
+  } else {
+    video.play();
+    startSending();
+    playing = true;
+    document.getElementById('play-btn').textContent = 'Pause';
+    document.getElementById('overlay').classList.remove('hidden');
+    document.getElementById('collect-fill').style.width = '0%';
+    document.getElementById('overlay-msg').textContent = 'collecting frames... 0 / 9';
+    lastMsg = null;
+  }
+}
+
+function resetAll() {
+  video.pause();
+  stopSending();
+  playing = false;
+  lastMsg = null;
+  canvas.width = canvas.height = 0;
+  document.getElementById('play-btn').disabled = true;
+  document.getElementById('play-btn').textContent = 'Play';
+  document.getElementById('file-in').value = '';
+  document.getElementById('team-badge').textContent = '--';
+  document.getElementById('team-badge').className = 'team-badge none';
+  document.getElementById('activity-name').textContent = '--';
+  document.getElementById('activity-type').textContent = 'waiting for frames...';
+  document.getElementById('activity-type').style.color = 'var(--muted)';
+  document.getElementById('conf-fill').style.width = '0%';
+  document.getElementById('conf-pct').textContent = '--%';
+  document.querySelectorAll('.act-pill').forEach(p => p.classList.remove('active-left', 'active-right', 'active-win'));
+  document.getElementById('s-buf').textContent = '0 / 9';
+  document.getElementById('s-ms').textContent = '-- ms';
+  document.getElementById('s-players').textContent = '--';
+  for (let i = 0; i < 12; i++) {
+    const el = document.getElementById(`pa-${i}`);
+    if (el) el.textContent = '--';
+  }
+  renderDets([]);
+  document.getElementById('overlay').classList.remove('hidden');
+  document.getElementById('overlay-msg').textContent = 'upload a video to start';
+  document.getElementById('collect-fill').style.width = '0%';
+}
+
+function setFps(v) {
+  sendFps = v;
+  document.getElementById('fps-val').textContent = v;
+  if (playing) startSending();
+}
+
+function setDot(cls, label) {
+  document.getElementById('ws-dot').className = 'ws-dot ' + cls;
+  document.getElementById('ws-label').textContent = label;
+}
+
+window.addEventListener('load', connectWS);
+</script>
+</body>
+</html>
