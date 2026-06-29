@@ -117,7 +117,7 @@ The table below shows results from the original CVPR 2016 paper alongside result
 
 <p align="center">
   <img src="docs/table-ac.png" alt="Original CVPR 2016 results table" width="500"/>
-  <br><em>Original paper results table for reference (CVPR 2016).</em>
+  <br><em>Original paper results table.</em>
 </p>
 
 ---
