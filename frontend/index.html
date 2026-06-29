@@ -1,254 +1,325 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Volleyball detector</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: sans-serif; background: #0f0f0f; color: #fff; padding: 1.5rem; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Volleyball detector</title>
 
-    h1 { font-size: 1.1rem; font-weight: 500; margin-bottom: 1.25rem; color: #ccc; }
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
 
-    #upload-zone {
-      border: 2px dashed #444; border-radius: 12px;
-      padding: 3rem 2rem; text-align: center; cursor: pointer;
-      transition: border-color .2s;
-    }
-    #upload-zone:hover { border-color: #888; }
-    #upload-zone p { color: #888; font-size: 0.9rem; margin-top: .5rem; }
+body{
+font-family:sans-serif;
+background:#0f0f0f;
+color:#fff;
+height:100vh;
+display:flex;
+flex-direction:column;
+overflow:hidden
+}
 
-    #player-wrap { display: none; }
+#topbar{
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 1.25rem;
+height:48px;
+border-bottom:1px solid #1f1f1f;
+flex-shrink:0
+}
 
-    .video-container {
-      position: relative;
-      display: inline-block;
-      width: 100%;
-      background: #000;
-      border-radius: 10px;
-      overflow: hidden;
-    }
+#topbar h1{
+font-size:.95rem;
+font-weight:500;
+color:#ccc
+}
 
-    video {
-      display: block;
-      width: 100%;
-    }
+#topbar-right{
+display:flex;
+align-items:center;
+gap:8px
+}
 
-    #overlay {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      pointer-events: none;
-    }
+.badge{
+font-size:11px;
+padding:3px 9px;
+border-radius:5px;
+font-weight:500;
+letter-spacing:.02em
+}
 
-    #status-bar {
-      display: flex; gap: 10px; flex-wrap: wrap;
-      margin-top: 10px; align-items: center;
-    }
-    .badge {
-      font-size: 12px; padding: 3px 10px; border-radius: 6px;
-      font-weight: 500;
-    }
-    .badge-blue   { background: #1d4ed8; }
-    .badge-green  { background: #15803d; }
-    .badge-yellow { background: #a16207; }
-    .badge-gray   { background: #374151; }
+.badge-blue{background:#1e3a5f;color:#60a5fa}
+.badge-green{background:#14331f;color:#4ade80}
+.badge-yellow{background:#3a2800;color:#fbbf24}
+.badge-gray{background:#1f1f1f;color:#9ca3af}
 
-    #timeline { margin-top: 1.5rem; display: none; }
-    #timeline h2 { font-size: 0.85rem; color: #888; margin-bottom: .5rem; }
-    table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    th { text-align: left; padding: 6px 8px; color: #888; border-bottom: 1px solid #333; }
-    td { padding: 6px 8px; border-bottom: 1px solid #1f1f1f; }
-    tr:hover td { background: #1a1a1a; }
+#main{
+display:flex;
+flex:1;
+overflow:hidden
+}
 
-    #loading { display: none; text-align: center; padding: 2rem; color: #888; }
-    .spinner {
-      width: 32px; height: 32px; margin: 0 auto 1rem;
-      border: 3px solid #333; border-top-color: #fff;
-      border-radius: 50%; animation: spin .8s linear infinite;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-  </style>
+#left-panel{
+display:flex;
+flex-direction:column;
+width:100%;
+min-width:0;
+background:#080808
+}
+
+.video-container{
+position:relative;
+flex:1;
+min-height:0;
+display:flex;
+align-items:center;
+justify-content:center;
+background:#000;
+overflow:hidden
+}
+
+video{
+display:block;
+max-width:100%;
+max-height:100%;
+width:auto;
+height:auto
+}
+
+#overlay{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+pointer-events:none
+}
+
+#status-bar{
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+align-items:center;
+padding:10px 14px;
+border-top:1px solid #1f1f1f;
+background:#0d0d0d;
+flex-shrink:0
+}
+
+#upload-zone{
+flex:1;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+gap:12px;
+border:1.5px dashed #2a2a2a;
+border-radius:10px;
+margin:20px;
+cursor:pointer;
+transition:border-color .2s;
+text-align:center;
+padding:2rem
+}
+
+#upload-zone:hover{
+border-color:#555
+}
+
+#upload-zone p{
+color:#555;
+font-size:.85rem
+}
+
+#upload-zone button{
+background:#1a1a1a;
+border:1px solid #333;
+color:#ccc;
+padding:7px 18px;
+border-radius:7px;
+cursor:pointer;
+font-size:.85rem;
+transition:background .15s
+}
+
+#upload-zone button:hover{
+background:#242424
+}
+
+#loading{
+display:none;
+flex:1;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+gap:12px;
+color:#555;
+font-size:.85rem
+}
+
+.spinner{
+width:28px;
+height:28px;
+border:2.5px solid #222;
+border-top-color:#555;
+border-radius:50%;
+animation:spin .8s linear infinite
+}
+
+@keyframes spin{
+to{transform:rotate(360deg)}
+}
+</style>
 </head>
+
 <body>
 
+<div id="topbar">
 <h1>Volleyball activity recognizer</h1>
 
+<div id="topbar-right">
+<span class="badge badge-gray" id="b-frame">Frame —</span>
+<span class="badge badge-green" id="b-label">—</span>
+<span class="badge badge-yellow" id="b-conf">conf —</span>
+<span class="badge badge-blue" id="b-persons">0 players</span>
+</div>
+</div>
+
+<div id="main">
+<div id="left-panel">
+
 <div id="upload-zone" onclick="document.getElementById('file-input').click()">
-  <svg width="40" height="40" fill="none" stroke="#666" stroke-width="1.5"
-       viewBox="0 0 24 24" style="margin:0 auto">
-    <path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M12 12V4M8 8l4-4 4 4"/>
-  </svg>
-  <p>Click to upload a video (.mp4 .avi .mov .mkv)</p>
-  <input type="file" id="file-input" accept="video/*" style="display:none" />
+<svg width="36" height="36" fill="none" stroke="#444" stroke-width="1.5" viewBox="0 0 24 24">
+<path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M12 12V4M8 8l4-4 4 4"/>
+</svg>
+
+<p>Drop a video or click to upload</p>
+<p style="font-size:.75rem;color:#3a3a3a">.mp4 · .avi · .mov · .mkv</p>
+
+<button>Choose file</button>
+
+<input type="file" id="file-input" accept="video/*" style="display:none">
 </div>
 
 <div id="loading">
-  <div class="spinner"></div>
-  <p>Analyzing video…</p>
+<div class="spinner"></div>
+<p>Analyzing video…</p>
 </div>
 
-<div id="player-wrap">
-  <div class="video-container">
-    <video id="vid" controls playsinline></video>
-    <canvas id="overlay"></canvas>
-  </div>
-
-  <div id="status-bar">
-    <span class="badge badge-blue"  id="b-frame">Frame —</span>
-    <span class="badge badge-green" id="b-label">—</span>
-    <span class="badge badge-yellow" id="b-conf">conf —</span>
-    <span class="badge badge-gray"  id="b-persons">0 players</span>
-  </div>
+<div class="video-container" id="video-container" style="display:none">
+<video id="vid" controls playsinline></video>
+<canvas id="overlay"></canvas>
 </div>
 
-<div id="timeline">
-  <h2>Timeline</h2>
-  <table>
-    <thead><tr><th>Start</th><th>End</th><th>Label</th><th>Confidence</th></tr></thead>
-    <tbody id="timeline-body"></tbody>
-  </table>
+<div id="status-bar" style="display:none">
+<span style="font-size:11px;color:#444;margin-right:2px">↳</span>
+<span class="badge badge-green" id="sb-label">—</span>
+<span class="badge badge-yellow" id="sb-conf">conf —</span>
+<span class="badge badge-blue" id="sb-persons">0 players</span>
+<span style="margin-left:auto;font-size:11px;color:#333" id="sb-frame">frame —</span>
+</div>
+
+</div>
 </div>
 
 <script>
-  const API = 'http://localhost:8000';
+const API='http://localhost:8000';
 
-  const vid  = document.getElementById('vid');
-  const canvas = document.getElementById('overlay');
-  const ctx = canvas.getContext('2d');
+const vid=document.getElementById('vid');
+const canvas=document.getElementById('overlay');
+const ctx=canvas.getContext('2d');
 
-  let frameData = [];
-  let effectiveFps = 30;
+let frameData=[];
+let effectiveFps=10;
 
-  // ── file upload ────────────────────────────────────────────────────────────
-  document.getElementById('file-input').addEventListener('change', async e => {
-    const file = e.target.files[0];
-    if (!file) return;
+document.getElementById('file-input').addEventListener('change',async e=>{
+const file=e.target.files[0];
+if(!file)return;
 
-    vid.src = URL.createObjectURL(file);
-    document.getElementById('upload-zone').style.display = 'none';
-    document.getElementById('loading').style.display = 'block';
+vid.src=URL.createObjectURL(file);
 
-    try {
-      const form = new FormData();
-      form.append('file', file);
-      const res = await fetch(`${API}/predict`, { method: 'POST', body: form });
-      const json = await res.json();
+document.getElementById('upload-zone').style.display='none';
+document.getElementById('loading').style.display='flex';
 
-      if (json.error) { alert(json.error); return; }
+try{
+const form=new FormData();
+form.append('file',file);
 
-      frameData = json.frames ?? [];
-      effectiveFps = json.effective_fps ?? 10;
+const res=await fetch(`${API}/predict`,{
+method:'POST',
+body:form
+});
 
-      buildTimeline(json.timeline ?? []);
+const json=await res.json();
 
-      document.getElementById('loading').style.display = 'none';
-      document.getElementById('player-wrap').style.display = 'block';
-      document.getElementById('timeline').style.display = 'block';
+if(json.error){
+alert(json.error);
+return;
+}
 
-    } catch (err) {
-      alert('Request failed: ' + err.message);
-      document.getElementById('loading').style.display = 'none';
-    }
-  });
+frameData=json.frames??[];
+effectiveFps=json.effective_fps??10;
 
-  function syncCanvas() {
-    canvas.width  = vid.videoWidth || 640;
-    canvas.height = vid.videoHeight || 360;
-  }
-  vid.addEventListener('loadedmetadata', syncCanvas);
-  window.addEventListener('resize', () => {
-    // re-sync on resize so scaling is correct
-    syncCanvas();
-  });
+document.getElementById('loading').style.display='none';
+document.getElementById('video-container').style.display='flex';
+document.getElementById('status-bar').style.display='flex';
 
-  function drawFrame(data) {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    if (!data) return;
+}catch(err){
+alert('Request failed: '+err.message);
+document.getElementById('loading').style.display='none';
+}
+});
 
-    const detections  = data.detections  ?? [];
-    const persons = data.persons ?? [];
-    const groupLabel = data.group_label;
-    const groupConf = data.group_conf;
+function syncCanvas(){
+if(!vid.videoWidth)return;
+canvas.width=vid.videoWidth;
+canvas.height=vid.videoHeight;
+}
 
+vid.addEventListener('loadedmetadata',syncCanvas);
 
-    const actionMap = {};
-    persons.forEach(p => { actionMap[p.player_id] = p; });
+function drawFrame(data){
+ctx.clearRect(0,0,canvas.width,canvas.height);
 
-    detections.forEach((det, i) => {
-      const [x1, y1, x2, y2] = det.box;
-      const isPerson = det.label === 'person';
-      const color    = isPerson ? '#22c55e' : '#f59e0b';
+if(!data)return;
 
-      // bounding box
-      ctx.strokeStyle = color;
-      ctx.lineWidth   = 2;
-      ctx.strokeRect(x1, y1, x2 - x1, y2 - y1);
+const groupLabel=data.group_label;
+const groupConf=data.group_conf;
 
+if(groupLabel){
+const text=`${groupLabel} (${(groupConf*100).toFixed(1)}%)`;
+const fontSize=Math.max(13,Math.round(canvas.width/70));
 
-      const personInfo = actionMap[i];
-      let tag = isPerson
-        ? `P${i}` +
-          (personInfo?.action_label ? `  ${personInfo.action_label}` : '') +
-          `  ${(det.confidence * 100).toFixed(0)}%`
-        : `${det.label}  ${(det.confidence * 100).toFixed(0)}%`;
+ctx.font=`bold ${fontSize}px sans-serif`;
 
-      ctx.font = 'bold 12px sans-serif';
-      const tw = ctx.measureText(tag).width + 8;
+const tw=ctx.measureText(text).width+20;
 
+ctx.fillStyle='rgba(0,0,0,0.65)';
+ctx.fillRect(8,8,tw,fontSize+14);
 
-      ctx.fillStyle = color;
-      ctx.fillRect(x1, y1 - 20, tw, 20);
+ctx.fillStyle='#fff';
+ctx.fillText(text,16,fontSize+10);
+}
 
+const playerCount=data.player_count??0;
+const confStr=groupConf?`conf ${(groupConf*100).toFixed(1)}%`:'conf —';
 
-      ctx.fillStyle = '#fff';
-      ctx.fillText(tag, x1 + 4, y1 - 5);
-    });
+document.getElementById('sb-label').textContent=groupLabel??'—';
+document.getElementById('sb-conf').textContent=confStr;
+document.getElementById('sb-persons').textContent=`${playerCount} players`;
+document.getElementById('sb-frame').textContent=`frame ${data.frame_idx}`;
 
+document.getElementById('b-label').textContent=groupLabel??'—';
+document.getElementById('b-conf').textContent=confStr;
+document.getElementById('b-persons').textContent=`${playerCount} players`;
+document.getElementById('b-frame').textContent=`Frame ${data.frame_idx}`;
+}
 
-    if (groupLabel) {
-      const text = `${groupLabel}  (${(groupConf * 100).toFixed(1)}%)`;
-      ctx.font = 'bold 14px sans-serif';
-      const tw = ctx.measureText(text).width + 16;
-      ctx.fillStyle = 'rgba(0,0,0,0.65)';
-      ctx.fillRect(8, 8, tw, 34);
-      ctx.fillStyle = '#fff';
-      ctx.fillText(text, 16, 30);
-    }
-
-
-    document.getElementById('b-frame').textContent   = `Frame ${data.frame_idx}`;
-    document.getElementById('b-label').textContent   = groupLabel ?? '—';
-    document.getElementById('b-conf').textContent    = groupConf
-      ? `conf ${(groupConf * 100).toFixed(1)}%` : 'conf —';
-    document.getElementById('b-persons').textContent =
-      `${detections.filter(d => d.label === 'person').length} players`;
-  }
-
-
-  vid.addEventListener('timeupdate', () => {
-    const frameIdx = Math.floor(vid.currentTime * effectiveFps);
-    drawFrame(frameData[frameIdx]);
-  });
-
-
-  function buildTimeline(timeline) {
-    const tbody = document.getElementById('timeline-body');
-    tbody.innerHTML = '';
-    timeline.forEach(row => {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td>${row.start}</td>
-        <td>${row.end}</td>
-        <td>${row.label}</td>
-        <td>${(row.confidence * 100).toFixed(1)}%</td>
-      `;
-      // clicking a row seeks the video to that timestamp
-      tr.style.cursor = 'pointer';
-      tr.addEventListener('click', () => { vid.currentTime = row.start_sec; });
-      tbody.appendChild(tr);
-    });
-  }
+vid.addEventListener('timeupdate',()=>{
+const idx=Math.floor(vid.currentTime*effectiveFps);
+drawFrame(frameData[idx]);
+});
 </script>
+
 </body>
 </html>

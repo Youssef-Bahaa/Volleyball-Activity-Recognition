@@ -6,62 +6,75 @@ from src.utils.checkpoint import CheckpointManager
 from src.utils.paths import Paths
 from pathlib import Path
 
-YOLO_MODEL = "yolov8m.pt"
-YOLO_CONF  = 0.40
+YOLO_MODEL="yolov8m.pt"
+YOLO_CONF=0.40
 
-def load_person_model(device: str) -> PersonTemp:
-    model = PersonTemp()
+def load_person_model(device:str)->PersonTemp:
+    model=PersonTemp()
 
     try:
-        ROOT = Path(__file__).parent.parent
-        p = Paths(str(ROOT), model_name="B8_Person")
-        ckpt_path = p.best_checkpoint()
-        CheckpointManager.load(ckpt_path, model, device=device)
-        print(f'Person model loaded from path {ckpt_path}')
+        ROOT=Path(__file__).parent.parent
+        p=Paths(str(ROOT),model_name="B8_Person")
+        ckpt_path=p.best_checkpoint()
+
+        CheckpointManager.load(
+            ckpt_path,
+            model,
+            device=device
+        )
+
+        print(f"Person model loaded from path {ckpt_path}")
+
     except FileNotFoundError:
         print("No Checkpoint Found!")
 
     model.to(device).eval()
     return model
 
-def load_group_model(person_model: PersonTemp, device: str) -> GroupActivityB8:
-    model = GroupActivityB8(player_model=person_model)
+def load_group_model(person_model:PersonTemp,device:str)->GroupActivityB8:
+    model=GroupActivityB8(player_model=person_model)
+
     try:
-        ROOT = Path(__file__).parent.parent
-        p = Paths(str(ROOT), model_name="B8_Group")
-        ckpt_path = p.best_checkpoint()
-        CheckpointManager.load(ckpt_path, model, device=device)
-        print(f'Group model loaded from path {ckpt_path}')
+        ROOT=Path(__file__).parent.parent
+        p=Paths(str(ROOT),model_name="B8_Group")
+        ckpt_path=p.best_checkpoint()
+
+        CheckpointManager.load(
+            ckpt_path,
+            model,
+            device=device
+        )
+
+        print(f"Group model loaded from path {ckpt_path}")
+
     except FileNotFoundError:
         print("No Checkpoint Found!")
 
     model.to(device).eval()
     return model
 
-
-
-def load_yolo(device: str) -> YOLO:
-    yolo = YOLO(YOLO_MODEL)
+def load_yolo(device:str)->YOLO:
+    yolo=YOLO(YOLO_MODEL)
     yolo.to(device)
     return yolo
 
+def load_all(device:str)->dict:
+    print("Loading All Models")
 
-def load_all(device: str) -> dict:
-    print('Loading All Models')
-    person_model = load_person_model(device=device)
-    group_model = load_group_model(person_model=person_model, device=device)
-    yolo = load_yolo(device=device)
-    print('All models ready')
-    return {
-        'person_model': person_model,
-        'group_model' : group_model,
-        'yolo' : yolo,
-        'device' : device
+    person_model=load_person_model(device=device)
+
+    group_model=load_group_model(
+        person_model=person_model,
+        device=device
+    )
+
+    yolo=load_yolo(device=device)
+
+    print("All models ready")
+
+    return{
+        "person_model":person_model,
+        "group_model":group_model,
+        "yolo":yolo,
+        "device":device,
     }
-
-
-
-
-
-
-
