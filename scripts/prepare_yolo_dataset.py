@@ -137,9 +137,13 @@ def build(cfg):
 
                 stem = f"{video_id}_{clip_id}_{frame_id}"
                 dst_img = out_root / "images" / split / f"{stem}.jpg"
+                dst_path.parent.mkdir(parents=True, exist_ok=True)
                 dst_lbl = out_root / "labels" / split / f"{stem}.txt"
 
                 place_file(img_path, dst_img, copy_images)
+
+                dst_lbl.parent.mkdir(parents=True, exist_ok=True)
+
                 with open(dst_lbl, "w") as f:
                     f.write("\n".join(kept_lines) + "\n")
 
