@@ -15,9 +15,12 @@ def get_config(path):
 
 
 def main():
-    args = argparse.ArgumentParser
-    args.add_argument('config', default="config/YOLO.yaml")
-    args.add_argument('resume', action="store_true", default=False)
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument("--config", default="config/YOLO.yaml")
+    parser.add_argument("--resume", action="store_true")
+
+    args = parser.parse_args()
 
     cfg = get_config(args.config)
 
