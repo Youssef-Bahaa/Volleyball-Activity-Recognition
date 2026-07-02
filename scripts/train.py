@@ -22,6 +22,7 @@ LOADER_REGISTRY = {
     'B7_Group': 'src.dataset.DataLoader.B6_Group',
     'B8_Person': 'src.dataset.DataLoader.B7_Person',
     'B8_Group': 'src.dataset.DataLoader.B8_Group',
+    "B9_Person": "src.dataset.DataLoader.B7_Person"
 }
 
 MODEL_REGISTRY = {
@@ -104,6 +105,12 @@ MODEL_REGISTRY = {
         "class": "GroupActivityB8",
         "phases": ["train"],
         "loader": "src.dataset.DataLoader.B8_Group",
+    },
+    "B9_Person": {
+        "module": "src.models.B9.Person_Temporal",
+        "class": "PersonTemp",
+        "phases": ["train"],
+        "loader": "src.dataset.DataLoader.B7_Person",
     },
 }
 def _import(module_path, class_name):
