@@ -8,7 +8,7 @@ model:
 training:
   batch_size: 4
   weight_decay: 0.01
-  epochs: 18
+  epochs: 6
 
   learning_rate: 0.0001
   backbone_lr: 0.00001
