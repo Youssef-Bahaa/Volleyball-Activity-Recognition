@@ -43,7 +43,7 @@ def box_to_yolo_line(box, img_w, img_h):
     yc = (y1 + y2) / 2.0 / img_h
     w_n = w / img_w
     h_n = h / img_h
-    return f"{class_id} {xc:.6f} {yc:.6f} {w_n:.6f} {h_n:.6f}"
+    return f"0 {xc:.6f} {yc:.6f} {w_n:.6f} {h_n:.6f}"
 
 def split_for_video(video_id, video_splits):
     vid = int(video_id)
