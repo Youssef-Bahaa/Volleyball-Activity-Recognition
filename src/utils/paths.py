@@ -11,10 +11,10 @@ class Paths:
 
         # folders
         self.checkpoints = self.root / "checkpoints" / model_name
-        self.results     = self.root / "results"      / model_name
-        self.figures     = self.results / "figures"
-        self.logs        = self.root / "logs"         / model_name
-        self.configs     = self.root / "config"
+        self.results = self.root / "results" / model_name
+        self.figures = self.results / "figures"
+        self.logs = self.root / "logs" / model_name
+        self.configs = self.root / "config"
 
         # ── data paths: Kaggle vs local ──────────────────────
         if _is_kaggle():
@@ -25,13 +25,18 @@ class Paths:
                 raise FileNotFoundError("No dataset found under /kaggle/input/")
             dataset_root = r'/kaggle/input/datasets/sherif31/group-activity-recognition-volleyball'
 
-            self.data   = dataset_root
+            self.data = dataset_root
             self.videos = dataset_root / "videos"
-            self.annot  = dataset_root / "annot_all.pkl"
+            self.annot = dataset_root / "annot_all.pkl"
+            self.tracking_annot = dataset_root / "volleyball_tracking_annotation"
         else:
-            self.data   = self.root / "data"
+            self.data = self.root / "data"
             self.videos = self.data / "videos_dataset"
-            self.annot  = self.root / "src" / "dataset" / "annot_all.pkl"
+            self.annot = self.root / "src" / "dataset" / "annot_all.pkl"
+            self.tracking_annot = self.data / "volleyball_tracking_annotation"
+
+        self.yolo_dataset = self.data / "yolo_dataset"
+        self.yolo_runs = self.root / "checkpoints" / "YOLO" / "runs"
 
         self._create_dirs()
 
