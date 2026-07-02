@@ -5,8 +5,8 @@ model:
   class_names: ['player']
 
 dataset:
-  videos_path: "/kaggle/input/group-activity-recognition-volleyball/videos"
-  tracking_annot_path: "/kaggle/input/group-activity-recognition-volleyball/volleyball_tracking_annotation"
+  videos_path: "/kaggle/input/datasets/sherif31/group-activity-recognition-volleyball/videos"
+  tracking_annot_path: "/kaggle/input/datasets/sherif31/group-activity-recognition-volleyball/volleyball_tracking_annotation"
   output_path: "/kaggle/working/yolo_dataset"
 
   only_keyframe: true
